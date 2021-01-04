@@ -16,6 +16,12 @@ app.use(bodyParser.urlencoded({extended:false}));
 const landing = require("./public/router/landing.js");
 app.use("/",landing);
 
+const gallery = require("./public/router/gallery.js");
+app.use("/gallery",gallery);
+
+const login = require("./public/router/clientlogin.js");
+app.use("/clientlogin",login);
+
 app.listen(4000,"0.0.0.0",()=>{
     console.log("Connected to port 4000");
 });
