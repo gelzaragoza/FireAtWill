@@ -26,6 +26,12 @@ app.use("/gallery",gallery);
 const login = require("./public/router/clientlogin.js");
 app.use("/clientlogin",login);
 
+const clientui = require("./public/router/clientui.js");
+app.use("/client",clientui);
+
+const admin = require("./public/router/admin.js");
+app.use("/admin",admin);
+
 app.listen(4000,"0.0.0.0",()=>{
     console.log("Connected to port 4000");
 });

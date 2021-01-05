@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Fire At Will</title>
+    <%-include('../css_js/login_css')%>
+</head>
+<body style="background-color: slategray;">
+    <%-include('../sections/clientnav')%>
+    <div class="container mt-5" >
+        <div class="row">
+            <div class="col-md-12">
+                <div class="card">
+                    <div class="card-header h4">
+                        Notifications
+                    </div>
+                    <div class="card-body">
+                      <div class="alert alert-info">
+                        You got no notifications. Why not look into our gallery ;)
+                      </div>
+                      <div class="card border border-primary">
+                        <div class="card-header h6 text-primary">
+                            Appointment Confirmation
+                        </div>
+                        <div class="card-body">
+                            <p class="card-text">
+                                You have an upcoming appointment on <span class="text-primary">January 5 2021</span>. Will you be able to make yourself available on the given day?
+                            </p>
+                            <button class="btn btn-success btn-rounded">Yes</button>
+                            <button class="btn btn-danger btn-rounded">No</button>
+                        </div>
+                        <div class="card-footer text-muted">
+                            1 day ago
+                        </div>
+                      </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <%-include('../css_js/login_js')%>
+</body>
+</html>
