@@ -26,15 +26,6 @@ app.use("/gallery",gallery);
 const login = require("./public/router/clientlogin.js");
 app.use("/clientlogin",login);
 
-const artist = require("./public/router/artist_records.js");
-app.use("/artist",artist);
-
-const client = require("./public/router/client_records.js");
-app.use("/client",client);
-
-const project = require("./public/router/project_records.js");
-app.use("/project",project);
-
 app.listen(4000,"0.0.0.0",()=>{
     console.log("Connected to port 4000");
 });
