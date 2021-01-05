@@ -29,11 +29,8 @@ app.use("/clientlogin",login);
 const clientui = require("./public/router/clientui.js");
 app.use("/client",clientui);
 
-const artist = require("./public/router/artist_records.js");
-app.use("/artist",artist);
-
-const project = require("./public/router/project_records.js");
-app.use("/project",project);
+const admin = require("./public/router/admin.js");
+app.use("/admin",admin);
 
 app.listen(4000,"0.0.0.0",()=>{
     console.log("Connected to port 4000");
