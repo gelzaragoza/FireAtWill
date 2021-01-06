@@ -11,14 +11,14 @@ app.use(bodyParser.urlencoded({extended:false}));
 
 
 router.get("/",(req,res)=>{
-    res.render("/admin_gallery");
+    res.render("admin/dashboard");
 })
 
-router.get("/artist_records",(req,res)=>{
+router.get("/artist",(req,res)=>{
     res.render("admin/artist_records");
 })
 
-router.get("/client_records",(req,res)=>{
+router.get("/client",(req,res)=>{
     res.render("admin/client_records");
 })
 
