@@ -22,7 +22,7 @@ router.get("/client",(req,res)=>{
     res.render("admin/client_records");
 })
 
-router.get("/project_records",(req,res)=>{
+router.get("/projects",(req,res)=>{
     res.render("admin/project_records");
 })
 
