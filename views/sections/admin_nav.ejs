@@ -1,68 +1,74 @@
-<nav class="navbar navbar-expand-lg navbar-light bg-light">
-  <!-- Container wrapper -->
-  <div class="container-fluid">
-    <!-- Toggle button -->
-    <button
-      class="navbar-toggler"
-      type="button"
-      data-mdb-toggle="collapse"
-      data-mdb-target="#navbarRightAlignExample"
-      aria-controls="navbarRightAlignExample"
-      aria-expanded="false"
-      aria-label="Toggle navigation"
-    >
-      <i class="fas fa-bars"></i>
-    </button>
-
-    <!-- Collapsible wrapper -->
-    <div class="collapse navbar-collapse container" id="navbarRightAlignExample">
-      <!-- Left links -->
-      <div class="navbar-nav mb-2 mb-lg-0">
-          <span class="navbar-brand mb-0 h1">Fire At Will</span>
-      </div>
-      <ul class="navbar-nav mb-2 mb-lg-0">
-          <li class="nav-item">
-              <a class="nav-link active" aria-current="page" href="/admin">Dashboard</a>
-          </li>
-          <li class="nav-item">
-              <a class="nav-link active" aria-current="page" href="/admin/projects">Projects</a>
-          </li>
-          <li class="nav-item">
-              <a class="nav-link active" aria-current="page" href="/admin/sessions">Sessions</a>
-          </li>
-          <li class="nav-item">
-              <a class="nav-link active" aria-current="page" href="/admin/transactions">Transactions</a>
-          </li>
-      </ul>
-      <!-- Left links -->
-      <!-- Left links -->
-      <ul class="navbar-nav ms-auto mb-2 mb-lg-0">
-          <!-- Icon dropdown -->
-            <li class="nav-item me-3 me-lg-0 dropdown">
-                <a
-                class="nav-link dropdown-toggle"
-                href="#"
-                id="navbarDropdown"
-                role="button"
-                data-mdb-toggle="dropdown"
-                aria-expanded="false"
-                >
-                <i class="fas fa-user"></i>
-                </a>
-                <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
-                  <li><a class="dropdown-item" href="/admin/client">Clients</a></li>
-                  <li><a class="dropdown-item" href="/admin/artist">Artists</a></li>
-                  <li><hr class="dropdown-divder"/></li>
-                  <li><a class="dropdown-item" href="#" data-mdb-toggle="modal"
-                      data-mdb-target="#logout">Logout</a></li>
-                </ul>
+<nav class="navbar navbar-expand-lg navbar-light fixed-top py-3" id="mainNav">
+    <!-- Container wrapper -->
+    <div class="container-fluid">
+      <!-- Toggle button -->
+      <button
+        class="navbar-toggler"
+        type="button"
+        data-mdb-toggle="collapse"
+        data-mdb-target="#navbarRightAlignExample"
+        aria-controls="navbarRightAlignExample"
+        aria-expanded="false"
+        aria-label="Toggle navigation"
+      >
+        <i class="fas fa-bars"></i>
+      </button>
+  
+      <!-- Collapsible wrapper -->
+      <div class="collapse navbar-collapse container" id="navbarRightAlignExample">
+        <!-- Left links -->
+        <div class="navbar-nav mb-2 mb-lg-0">
+            <span class="navbar-brand mb-0 h1">Fire At Will</span>
+        </div>
+        <ul class="navbar-nav mb-2 mb-lg-0">
+            <li class="nav-item">
+                <a class="nav-link active" aria-current="page" href="/client">Home</a>
             </li>
+            <li class="nav-item">
+                <a class="nav-link active" aria-current="page" href="/client/appointments">Appointments</a>
+            </li>
+            <li class="nav-item dropdown">
+                <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-mdb-toggle="dropdown" aria-expanded="false">
+                  Reports
+                </a>
+                <!-- Dropdown menu -->
+                <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
+                  <li><a class="dropdown-item" href="#">Artist Roster</a></li>
+                  <li><a class="dropdown-item" href="#">Client List</a></li>
+                  <li><a class="dropdown-item" href="#">Tattoo Gallery</a></li>
+                  <li><hr class="dropdown-divider" /></li>
+                  <li><a class="dropdown-item" href="#">Projects</a></li>
+                  <li><a class="dropdown-item" href="#">Sessions</a></li>
+                  <li><a class="dropdown-item" href="#">Transactions</a></li>
+                </ul>
+              </li>
         </ul>
         <!-- Left links -->
+        <!-- Left links -->
+        <ul class="navbar-nav ms-auto mb-2 mb-lg-0">
+            <!-- Icon dropdown -->
+              <li class="nav-item me-3 me-lg-0 dropdown">
+                  <a
+                  class="nav-link dropdown-toggle"
+                  href="#"
+                  id="navbarDropdown"
+                  role="button"
+                  data-mdb-toggle="dropdown"
+                  aria-expanded="false"
+                  >
+                  <i class="fas fa-user"></i>
+                  </a>
+                  <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
+                    <li><a class="dropdown-item" href="#" data-mdb-toggle="modal"
+                        data-mdb-target="#logout">Logout</a></li>
+                  </ul>
+              </li>
+          </ul>
+          <!-- Left links -->
+      </div>
+      <!-- Collapsible wrapper -->
     </div>
-    <!-- Collapsible wrapper -->
-  </div>
-  <!-- Container wrapper -->
+    <!-- Container wrapper -->
 </nav>
 
 <!-- Modal -->
@@ -73,30 +79,30 @@ tabindex="-1"
 aria-labelledby="exampleModalLabel"
 aria-hidden="true"
 >
-  <div class="modal-dialog">
-      <div class="modal-content">
-          <div class="modal-header">
-              <h5 class="modal-title" id="exampleModalLabel">Logout Confirmation</h5>
-              <button
-              type="button"
-              class="btn-close"
-              data-mdb-dismiss="modal"
-              aria-label="Close"
-              ></button>
-          </div>
-      <div class="modal-body">
-          <div class="alert alert-danger">
-              Do you want to end your session?
-          </div>
-      </div>
-          <div class="modal-footer">
-              <button type="button" class="btn btn-secondary" data-mdb-dismiss="modal">
-              Close
-              </button>
-              <form action="/logout" method="POST">
-                  <button type="submit" class="btn btn-danger">Logout</button>                    
-              </form>
-          </div>
-      </div>
-  </div>
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">Logout Confirmation</h5>
+                <button
+                type="button"
+                class="btn-close"
+                data-mdb-dismiss="modal"
+                aria-label="Close"
+                ></button>
+            </div>
+        <div class="modal-body">
+            <div class="alert alert-danger">
+                Do you want to end your session?
+            </div>
+        </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-mdb-dismiss="modal">
+                Close
+                </button>
+                <form action="/logout" method="POST">
+                    <button type="submit" class="btn btn-danger">Logout</button>                    
+                </form>
+            </div>
+        </div>
+    </div>
 </div>
