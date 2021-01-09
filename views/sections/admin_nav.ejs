@@ -22,29 +22,25 @@
         </div>
         <ul class="navbar-nav mb-2 mb-lg-0">
             <li class="nav-item">
-                <a class="nav-link active" aria-current="page" href="/client">Home</a>
+                <a class="nav-link active" aria-current="page" href="/admin">Dashboard</a>
             </li>
             <li class="nav-item">
-                <a class="nav-link active" aria-current="page" href="/client/appointments">Appointments</a>
+                <a class="nav-link active" href="/gallery">Tattoo Gallery</a>
             </li>
             <li class="nav-item">
                 <a class="nav-link active" aria-current="page" href="/gallery">Gallery</a>
             </li>
             <li class="nav-item dropdown">
-                <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-mdb-toggle="dropdown" aria-expanded="false">
+                <a class="nav-link active dropdown-toggle" href="#" id="navbarDropdown" role="button" data-mdb-toggle="dropdown" aria-expanded="false">
                   Reports
                 </a>
                 <!-- Dropdown menu -->
                 <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
-                  <li><a class="dropdown-item" href="#">Artist Roster</a></li>
-                  <li><a class="dropdown-item" href="#">Client List</a></li>
-                  <li><a class="dropdown-item" href="#">Tattoo Gallery</a></li>
-                  <li><hr class="dropdown-divider" /></li>
-                  <li><a class="dropdown-item" href="#">Projects</a></li>
-                  <li><a class="dropdown-item" href="#">Sessions</a></li>
-                  <li><a class="dropdown-item" href="#">Transactions</a></li>
+                  <li><a class="dropdown-item" href="/admin/projects">Projects</a></li>
+                  <li><a class="dropdown-item" href="/admin/session_records">Sessions</a></li>
+                  <li><a class="dropdown-item" href="/admin/transaction_records">Transactions</a></li>
                 </ul>
-              </li>
+            </li>
         </ul>
         <!-- Left links -->
         <!-- Left links -->
@@ -62,6 +58,9 @@
                   <i class="fas fa-user"></i>
                   </a>
                   <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
+                    <li><a class="dropdown-item" href="/admin/client">Clients</a></li>
+                    <li><a class="dropdown-item" href="/admin/artist">Artists</a></li>
+                    <li><hr class="dropdown-divder"/></li>
                     <li><a class="dropdown-item" href="#" data-mdb-toggle="modal"
                         data-mdb-target="#logout">Logout</a></li>
                   </ul>
