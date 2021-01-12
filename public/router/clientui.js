@@ -12,8 +12,9 @@ router.get("/appointments",(req,res)=>{
 
 router.post("/appointments", (req,res)=>{
     console.log(req.body);
-    console.log("Hello")
-    res.end();
+    mysql.addApointments(req.body,(ret)=>{
+        res.redirect("/client/appointments");
+    })
 });
 
 module.exports= router;
