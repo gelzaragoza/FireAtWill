@@ -75,24 +75,28 @@
                 </div>
                 <div class="row">
                     <div class="col-md-12">
-                        <form>
+                        <form action="/client/appointments" method="POST">
                             <div class="form-outline mb-4">
-                              <input type="date" class="form-control" />
+                              <input type="date" class="form-control" name="date" required />
                               <label class="form-label" for="form1Example1"></label>
                             </div>
                           
                             <div class="form-outline mb-4">
-                                <input type="text" id="form3Example1" class="form-control" placeholder="Optional if a design is selected"/>
+                                <input type="text" id="form3Example1" class="form-control" placeholder="Optional if a design is selected" name="imglink"/>
                                 <label class="form-label" for="form3Example1">Image URL</label>
                             </div>
 
                             <div class="input-group flex-nowrap mb-4">
                                 <span class="input-group-text" id="addon-wrapping">Archive Design</span>
-                                <select name="" id="" class="form-control" >
-                                    <option value="" disabled selected>Optional if a design is to be submitted</option>
+                                <select name="imgarc" id="" class="form-control" >
+                                    <option value="n/a" disabled selected>Optional if a design is to be submitted</option>
                                     <option value="">asd</option>
                                     <option value="">asd</option>
                                 </select>
+                            </div>
+                            <div class="form-outline mb-4">
+                                <textarea class="form-control" id="textAreaExample" rows="4" name="purpose" required></textarea>
+                                <label class="form-label" for="textAreaExample">Purpose</label>
                             </div>
                           
                             <!-- 2 column grid layout for inline styling -->
@@ -105,7 +109,7 @@
                                     type="checkbox"
                                     value=""
                                     id="form1Example3"
-                                  />
+                                  required/>
                                   <label class="form-check-label" for="form1Example3">I have read and accept the conditions stated above.</label>
                                 </div>
                               </div>
