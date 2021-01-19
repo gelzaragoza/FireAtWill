@@ -4,86 +4,61 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Gallery</title>
-    <%-include('../css_js/landing_css')%>
+    <%if(type=="guest"){%>
+        <%-include('../css_js/landing_css')%>
+    <%}else{%>
+        <%-include('../css_js/login_css')%>
+    <%}%>
 </head>
 <body style="background-color: slategray;">
-    <%-include('../sections/nav')%>
+    <%if(type=="guest"){%>
+        <%-include('../sections/nav')%>
+    <%}else{%>
+        <%-include('../sections/clientnav')%>
+    <%}%>
     <!-- Page Content -->
 <div class="container" style="margin-top: 5%;">
+    <%if(type=="guest"){%>
+        <h1 class="font-weight-light text-center text-lg-left mt-4 mb-0">Design Gallery</h1>
 
-<h1 class="font-weight-light text-center text-lg-left mt-4 mb-0">Design Gallery</h1>
-
-<hr class="mt-2 mb-5">
-    <div class="input-group mb-3">
-        <span class="input-group-text" id="basic-addon1"><i class="fa fa-search"></i></span>
-        <input type="text" class="form-control" placeholder="Search by name or tags" aria-label="Username" aria-describedby="basic-addon1">
-    </div>
+        <hr class="mt-2 mb-5">
+            <div class="input-group mb-3">
+                <span class="input-group-text" id="basic-addon1"><i class="fa fa-search"></i></span>
+                <input type="text" class="form-control" placeholder="Search by name or tags" aria-label="Username" aria-describedby="basic-addon1">
+            </div>
+    <%}else{%>
+        <div class="card mb-5">
+            <div class="card-header h4">
+                Design Gallery
+            </div>
+            <div class="cad-body">
+                <div class="input-group mb-3 p-5">
+                    <span class="input-group-text" id="basic-addon1"><i class="fa fa-search"></i></span>
+                    <input type="text" class="form-control" placeholder="Search by name or tags" aria-label="Username" aria-describedby="basic-addon1">
+                </div>
+            </div>
+        </div>
+    <%}%>
     <div class="row text-center text-lg-left">
-
         <div class="col-lg-3 col-md-4 col-6">
-        <a href="#" class="d-block mb-4 h-100">
-                <img class="img-fluid img-thumbnail" src="https://source.unsplash.com/pWkk7iiCoDM/400x300" alt="">
+        <a href="assets/sample1.jpg" class="d-block mb-4 h-100">
+                <img class="img-fluid img-thumbnail" src="assets/sample1.jpg" alt="">
             </a>
         </div>
         <div class="col-lg-3 col-md-4 col-6">
-        <a href="#" class="d-block mb-4 h-100">
+        <a href="https://source.unsplash.com/aob0ukAYfuI/400x300" class="d-block mb-4 h-100">
                 <img class="img-fluid img-thumbnail" src="https://source.unsplash.com/aob0ukAYfuI/400x300" alt="">
             </a>
         </div>
-        <div class="col-lg-3 col-md-4 col-6">
-        <a href="#" class="d-block mb-4 h-100">
-                <img class="img-fluid img-thumbnail" src="https://source.unsplash.com/EUfxH-pze7s/400x300" alt="">
-            </a>
-        </div>
-        <div class="col-lg-3 col-md-4 col-6">
-        <a href="#" class="d-block mb-4 h-100">
-                <img class="img-fluid img-thumbnail" src="https://source.unsplash.com/M185_qYH8vg/400x300" alt="">
-            </a>
-        </div>
-        <div class="col-lg-3 col-md-4 col-6">
-        <a href="#" class="d-block mb-4 h-100">
-                <img class="img-fluid img-thumbnail" src="https://source.unsplash.com/sesveuG_rNo/400x300" alt="">
-            </a>
-        </div>
-        <div class="col-lg-3 col-md-4 col-6">
-        <a href="#" class="d-block mb-4 h-100">
-                <img class="img-fluid img-thumbnail" src="https://source.unsplash.com/AvhMzHwiE_0/400x300" alt="">
-            </a>
-        </div>
-        <div class="col-lg-3 col-md-4 col-6">
-        <a href="#" class="d-block mb-4 h-100">
-                <img class="img-fluid img-thumbnail" src="https://source.unsplash.com/2gYsZUmockw/400x300" alt="">
-            </a>
-        </div>
-        <div class="col-lg-3 col-md-4 col-6">
-        <a href="#" class="d-block mb-4 h-100">
-                <img class="img-fluid img-thumbnail" src="https://source.unsplash.com/EMSDtjVHdQ8/400x300" alt="">
-            </a>
-        </div>
-        <div class="col-lg-3 col-md-4 col-6">
-        <a href="#" class="d-block mb-4 h-100">
-                <img class="img-fluid img-thumbnail" src="https://source.unsplash.com/8mUEy0ABdNE/400x300" alt="">
-            </a>
-        </div>
-        <div class="col-lg-3 col-md-4 col-6">
-        <a href="#" class="d-block mb-4 h-100">
-                <img class="img-fluid img-thumbnail" src="https://source.unsplash.com/G9Rfc1qccH4/400x300" alt="">
-            </a>
-        </div>
-        <div class="col-lg-3 col-md-4 col-6">
-        <a href="#" class="d-block mb-4 h-100">
-                <img class="img-fluid img-thumbnail" src="https://source.unsplash.com/aJeH0KcFkuc/400x300" alt="">
-            </a>
-        </div>
-        <div class="col-lg-3 col-md-4 col-6">
-        <a href="#" class="d-block mb-4 h-100">
-                <img class="img-fluid img-thumbnail" src="https://source.unsplash.com/p2TQ-3Bh3Oo/400x300" alt="">
-            </a>
-        </div>
+        
     </div>
 
 </div>
 <!-- /.container -->
-<%-include('../css_js/landing_js')%>
+<%if(type=="guest"){%>
+    <%-include('../css_js/landing_js')%>
+<%}else{%>
+    <%-include('../css_js/login_js')%>
+<%}%>
 </body>
 </html>

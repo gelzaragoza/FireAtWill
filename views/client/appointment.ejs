@@ -29,11 +29,13 @@
                               </tr>
                           </thead>
                           <tbody>
-                              <tr>
-                                  <td>January 5, 2021</td>
-                                  <td>January 10, 2021</td>
-                                  <td>Pending</td>
-                              </tr>
+                              <%apps.forEach((app)=>{%>
+                                <tr>
+                                    <td><%=months[app.Date_Created.getMonth()]%> <%=app.Date_Created.getDate()%>, <%=app.Date_Created.getFullYear()%></td>
+                                    <td><%=months[app.Appointment_Date.getMonth()]%> <%=app.Appointment_Date.getDate()%>, <%=app.Appointment_Date.getFullYear()%></td>
+                                    <td><%=app.Status%></td>
+                                </tr>
+                              <%})%>                           
                           </tbody>
                       </table>
                     </div>

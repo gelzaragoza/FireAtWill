@@ -16,24 +16,33 @@
                         Notifications
                     </div>
                     <div class="card-body">
-                      <div class="alert alert-info">
-                        You got no notifications. Why not look into our gallery ;)
-                      </div>
-                      <div class="card border border-primary">
-                        <div class="card-header h6 text-primary">
-                            Appointment Confirmation
+                    <%apps.forEach((app)=>{%>
+                        <%if(app.Status=="Approved"){%>
+                            <%check++%>
+                        <%}%>
+                    <%})%>
+                    <%if(check==0){%>
+                        <div class="alert alert-info">
+                            You got no notifications. Why not look into our gallery ;)
                         </div>
-                        <div class="card-body">
-                            <p class="card-text">
-                                You have an upcoming appointment on <span class="text-primary">January 5 2021</span>. Will you be able to make yourself available on the given day?
-                            </p>
-                            <button class="btn btn-success btn-rounded">Yes</button>
-                            <button class="btn btn-danger btn-rounded">No</button>
-                        </div>
-                        <div class="card-footer text-muted">
-                            1 day ago
-                        </div>
-                      </div>
+                    <%}%>
+                    <%apps.forEach((app)=>{%>
+                        <%if(app.Status=="Approved"){%>
+                            <div class="card border border-primary mb-4">
+                                <div class="card-header h6 text-primary">
+                                    Appointment Application
+                                </div>
+                                <div class="card-body">
+                                    <p class="card-text">
+                                        Your appointment for <strong><%=months[app.Appointment_Date.getMonth()]%> <%=app.Appointment_Date.getDate()%>, <%=app.Appointment_Date.getFullYear()%></strong> has been approve. A text message will be delivered to you from the management for your confirmation of the said date.
+                                    </p>
+                                </div>
+                                <div class="card-footer text-muted">
+                                    1 day ago
+                                </div>
+                            </div>
+                        <%}%>
+                    <%})%>
                     </div>
                 </div>
             </div>
