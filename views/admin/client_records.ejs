@@ -36,53 +36,21 @@
                           </tr>
                         </thead>
                         <tbody>
-                          <tr>
-                            <td class="text-center">01231451</td>
-                            <td class="text-center">Emman Brenzo Tero</td>
-                            <td class="text-center">0000</td>
-                            <td class="text-center">@House</td>
-                            <td class="text-center">Satisfied</td>
-                            <td class="text-center">
-                            <!-- Delete -->
-                            <button type="button" class="btn btn-danger btn-floating" data-mdb-ripple-color="dark"><i class="fas fa-user-minus"></i></button>
-                            <!-- Update -->
-                            <button type="button" class="btn btn-success btn-floating" data-mdb-ripple-color="dark" data-mdb-toggle="modal" data-mdb-target="#appointment"><i class="fas fa-user-edit"></i></button>                            </td>
-                          </tr>
-                          <tr>
-                            <td class="text-center">01231451</td>
-                            <td class="text-center">Maria Dominique Daculan</td>
-                            <td class="text-center">0000</td>
-                            <td class="text-center">@House</td>
-                            <td class="text-center">Satisfied</td>
-                            <td class="text-center">
-                             <!-- Delete -->
-                             <button type="button" class="btn btn-danger btn-floating" data-mdb-ripple-color="dark"><i class="fas fa-user-minus"></i></button>
-                             <!-- Update -->
-                             <button type="button" class="btn btn-success btn-floating" data-mdb-ripple-color="dark" data-mdb-toggle="modal" data-mdb-target="#appointment"><i class="fas fa-user-edit"></i></button>
-                            </td>
-                          </tr>
-                          <tr>
-                            <td class="text-center">01231451</td>
-                            <td class="text-center">Maria Angelica Zaragoza</td>
-                            <td class="text-center">0000</td>
-                            <td class="text-center">@House</td>
-                            <td class="text-center">Satisfied</td>
-                            <td class="text-center">
-                            <!-- Delete -->
-                            <button type="button" class="btn btn-danger btn-floating" data-mdb-ripple-color="dark"><i class="fas fa-user-minus"></i></button>
-                            <!-- Update -->
-                            <button type="button" class="btn btn-success btn-floating" data-mdb-ripple-color="dark" data-mdb-toggle="modal" data-mdb-target="#appointment"><i class="fas fa-user-edit"></i></button>                          </tr>
-                          <tr>
-                            <td class="text-center">01231451</td>
-                            <td class="text-center">Jayson Cadiz</td>
-                            <td class="text-center">0000</td>
-                            <td class="text-center">@House</td>
-                            <td class="text-center">Satisfied</td>
-                            <td class="text-center">
-                            <!-- Delete -->
-                            <button type="button" class="btn btn-danger btn-floating" data-mdb-ripple-color="dark"><i class="fas fa-user-minus"></i></button>
-                            <!-- Update -->
-                            <button type="button" class="btn btn-success btn-floating" data-mdb-ripple-color="dark" data-mdb-toggle="modal" data-mdb-target="#appointment"><i class="fas fa-user-edit"></i></button>                           </tr>
+                          <%clients.forEach((client)=>{%>
+                            <tr>
+                              <td class="text-center"><%=client.Client_ID%></td>
+                              <td class="text-center"><%=client.First_Name%> <%=client.Last_Name%></td>
+                              <td class="text-center"><%=client.Contact_Number%></td>
+                              <td class="text-center"><%=client.City%> <%=client.Street%> <%=client.Address%></td>
+                              <td class="text-center"><%=client.Remarks%></td>
+                              <td class="text-center">
+                                <!-- Delete -->
+                                <button type="button" class="btn btn-danger btn-floating" data-mdb-ripple-color="dark"><i class="fas fa-user-minus"></i></button>
+                                <!-- Update -->
+                                <button type="button" class="btn btn-success btn-floating" data-mdb-ripple-color="dark" data-mdb-toggle="modal" data-mdb-target="#appointment"><i class="fas fa-user-edit"></i></button>
+                              </td>
+                            </tr>
+                          <%})%>
                         </tbody>
                       </table>
                 </div>
@@ -112,40 +80,40 @@
             <div class="modal-body">
                 <div class="row">
                     <div class="col-md-12">
-                      <form>
+                      <form action="/admin/client" method="POST">
                         <!-- First Name input -->
                         <div class="form-outline mb-4">
-                          <input type="text" id="form5Example2" class="form-control" />
+                          <input type="text" id="form5Example2" class="form-control" name="firstname" />
                           <label class="form-label" for="form5Example1">First Name</label>
                         </div>
                         <!-- Client's Last Name -->
                         <div class="form-outline mb-4">
-                          <input type="text" id="form5Example1" class="form-control" />
+                          <input type="text" id="form5Example1" class="form-control" name="lastname"/>
                           <label class="form-label" for="form5Example1">Last Name</label>
                         </div>
                         <!-- Contact Number -->
                         <div class="form-outline mb-4">
-                          <input type="text" id="form5Example3" class="form-control" />
+                          <input type="text" id="form5Example3" class="form-control" name="contactnumber"/>
                           <label class="form-label" for="form5Example1">Contact Number</label>
                         </div>
                         <!-- City -->
                         <div class="form-outline mb-4">
-                          <input type="text" id="form5Example4" class="form-control" />
+                          <input type="text" id="form5Example4" class="form-control" name="city"/>
                           <label class="form-label" for="form5Example1">City</label>
                         </div>
                         <!-- Address -->
                         <div class="form-outline mb-4">
-                          <input type="text" id="form5Example4" class="form-control" />
+                          <input type="text" id="form5Example4" class="form-control" name="street"/>
                           <label class="form-label" for="form5Example1">Street</label>
                         </div>
                         <!-- Address -->
                         <div class="form-outline mb-4">
-                          <input type="text" id="form5Example4" class="form-control" />
+                          <input type="text" id="form5Example4" class="form-control" name="address"/>
                           <label class="form-label" for="form5Example1">Address</label>
                         </div>
                         <!-- Remarks -->
                         <div class="form-outline mb-4">
-                          <input type="text" id="form5Example5" class="form-control" />
+                          <input type="text" id="form5Example5" class="form-control" name="remarks"/>
                           <label class="form-label" for="form5Example1">Remarks</label>
                         </div>
 
