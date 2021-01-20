@@ -70,6 +70,12 @@ module.exports = {
             if(err) throw(err);
             callback(client);
         })
+    },
+    getSessions: function(callback){
+        connection.query("SELECT tattoo_session.Session_Number AS session_num, tattoo_session.Session_Date AS session_date, tattoo_session.Time_Started AS session_start, tattoo_session.Time_Finised AS session_end, (client.First_Name + client.Last_Name) AS client_name, project_records.Project_Number, (artist.First_Name + artist.Last_Name) AS artist_name FROM tattoo_session INNER JOIN project_records ON tattoo_session.Project_Number=project_records.Project_Number INNER JOIN client ON project_records.Client_ID=client.Client_ID INNER JOIN artist ON project_records.Artist_ID=artist.Artist_ID",(err,session)=>{
+            if(err) throw(err);
+            callback(session);
+        })
     }
 }
 /*
