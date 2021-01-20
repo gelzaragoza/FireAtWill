@@ -1,10 +1,18 @@
 const express = require("express");
 const bodyParser = require("body-parser");
 const app = express();
-
+const session = require("express-session");
 app.set("view engine","ejs");
 app.use(express.static("public"));
 app.use(bodyParser.urlencoded({extended:false}));
+app.use(session({
+    secret: 'iamasecret',
+    resave: false,
+    saveUninitialized: false,
+    cookie:{
+        maxAge:3600000
+    }
+}));
 
 //Routes
 /*  Routes Format
@@ -12,6 +20,9 @@ app.use(bodyParser.urlencoded({extended:false}));
     app.use("/",name);
     app.use() first parameter will act as the url path
 */
+
+const login = require("./public/router/clientlogin.js");
+app.use("/clientlogin",login);
 
 const landing = require("./public/router/landing.js");
 app.use("/",landing);
@@ -23,14 +34,21 @@ app.use("/gallery",gallery);
 // app.use("/gallery",admin_gallery);
 /* di ra cguro ni needed...naa lay features mahidden/disable depende sa user-type*/
 
-const login = require("./public/router/clientlogin.js");
-app.use("/clientlogin",login);
-
 const clientui = require("./public/router/clientui.js");
 app.use("/client",clientui);
 
 const admin = require("./public/router/admin.js");
 app.use("/admin",admin);
+
+app.post("/logout",(req,res)=>{
+    req.session.destroy(err =>{
+        if(err){
+            return res.redirect("/client");
+        }
+        res.clearCookie()
+        res.redirect("/");
+    })
+});
 
 app.listen(4000,"0.0.0.0",()=>{
     console.log("Connected to port 4000");

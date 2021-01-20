@@ -1,25 +1,37 @@
 const express = require("express");
 const router = express.Router();
-
-// const express = require("express");
-const bodyParser = require("body-parser");
-const app = express();
-
-app.set("view engine","ejs");
-app.use(express.static("public"));
-app.use(bodyParser.urlencoded({extended:false}));
-
+const mysql = require("../database/mysql.js")
 
 router.get("/",(req,res)=>{
     res.render("admin/dashboard");
 })
 
 router.get("/artist",(req,res)=>{
-    res.render("admin/artist_records");
+    mysql.getArtist((artist)=>{
+        console.log(artist)
+        res.render("admin/artist_records", {artists:artist});
+    })
 })
 
 router.get("/client",(req,res)=>{
-    res.render("admin/client_records");
+    mysql.getClient((client)=>{
+        console.log(client)
+        res.render("admin/client_records", {clients:client});
+    })
+})
+
+router.post("/client",(req,res)=>{
+    console.log(req.body)
+    mysql.addClient(req.body,()=>{
+        res.redirect("/admin/client")
+    })
+})
+
+router.post("/artist",(req,res)=>{
+    console.log(req.body)
+    mysql.addArtist(req.body,()=>{
+        res.redirect("/admin/artist")
+    })
 })
 
 router.get("/project_records",(req,res)=>{

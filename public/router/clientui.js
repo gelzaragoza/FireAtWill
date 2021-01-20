@@ -3,16 +3,21 @@ const router = express.Router();
 const mysql = require("../database/mysql.js")
 
 router.get("/",(req,res)=>{
-    res.render("client/clientui");
+    let months = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"];
+    mysql.getAppointments(req.session.userid,(app)=>{
+        res.render("client/clientui",{apps:app,check:0,months:months});
+    });
 });
 
 router.get("/appointments",(req,res)=>{
-    res.render("client/appointment");
+    mysql.getAppointments(req.session.userid,(app)=>{
+        let months = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"];
+        res.render("client/appointment",{apps:app,months:months});
+    })
 });
 
 router.post("/appointments", (req,res)=>{
-    console.log(req.body);
-    mysql.addApointments(req.body,(ret)=>{
+    mysql.addApointments(req.body,req.session.userid,()=>{
         res.redirect("/client/appointments");
     })
 });
