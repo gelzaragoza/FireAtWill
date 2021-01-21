@@ -35,6 +35,12 @@ module.exports = {
             callback(app);
         });
     },
+    getAllAppointments: function(callback){
+        connection.query("SELECT * FROM appointment",(err,app)=>{
+            if(err) throw(err);
+            callback(app);
+        });
+    },
     addSession: function(){
 
     },

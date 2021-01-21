@@ -1,0 +1,135 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Fire At Will</title>
+    <%-include('../css_js/login_css')%>
+</head>
+<body style="background-color: slategray;">
+    <%-include('../sections/admin_nav')%>
+    <div class="container mt-5" >
+        <div class="row">
+            <div class="col-md-12">
+                <div class="card">
+                    <div class="card-header h4">
+                        My Appointments
+                    </div>
+                    <div class="card-body">
+                      <div class="alert alert-info">
+                        You got no appointments.
+                      </div>
+                      <table class="table table-hover">
+                          <thead>
+                              <tr>
+                                  <th scope="col">Date Created</th>
+                                  <th scope="col">Appointment Date</th>
+                                  <th scope="col">Status</th>
+                              </tr>
+                          </thead>
+                          <tbody>
+                              <%apps.forEach((app)=>{%>
+                                <tr>
+                                    <td><%=months[app.Date_Created.getMonth()]%> <%=app.Date_Created.getDate()%>, <%=app.Date_Created.getFullYear()%></td>
+                                    <td><%=months[app.Appointment_Date.getMonth()]%> <%=app.Appointment_Date.getDate()%>, <%=app.Appointment_Date.getFullYear()%></td>
+                                    <td><%=app.Status%></td>
+                                </tr>
+                              <%})%>                           
+                          </tbody>
+                      </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- Modal -->
+    <div
+    class="modal fade"
+    id="appointment"
+    tabindex="-1"
+    aria-labelledby="exampleModalLabel"
+    aria-hidden="true"
+    >
+        <div class="modal-dialog">
+            <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">Modal title</h5>
+                <button
+                type="button"
+                class="btn-close"
+                data-mdb-dismiss="modal"
+                aria-label="Close"
+                ></button>
+            </div>
+            <div class="modal-body">
+                <div class="row">
+                    <div class="col-md-12">
+                        <div class="alert alert-info text-center">
+                            Terms and Conditions
+                        </div>
+                        <div class="alert alert-info">
+                            By applying for an appointment, you hereby abide to our rules and conditions. Thus, in doing so, you are physically ready, mentaly sober, and did not have any tattoo procedures recently.
+                            As well as the design that you will provide or chosen from the gallery will be considered final and non changeable.
+                            A notification will be given to you 3 days before the date of the appointment for your availability. Failure to respond with the given time period will automaticaly invalidate your appointment.   
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-12">
+                        <form action="/client/appointments" method="POST">
+                            <div class="form-outline mb-4">
+                              <input type="date" class="form-control" name="date" required />
+                              <label class="form-label" for="form1Example1"></label>
+                            </div>
+                          
+                            <div class="form-outline mb-4">
+                                <input type="text" id="form3Example1" class="form-control" placeholder="Optional if a design is selected" name="imglink"/>
+                                <label class="form-label" for="form3Example1">Image URL</label>
+                            </div>
+
+                            <div class="input-group flex-nowrap mb-4">
+                                <span class="input-group-text" id="addon-wrapping">Archive Design</span>
+                                <select name="imgarc" id="" class="form-control" >
+                                    <option value="" disabled selected>Optional if a design is to be submitted</option>
+                                    <option value="asd">asd</option>
+                                    <option value="">asd</option>
+                                </select>
+                            </div>
+                            <div class="form-outline mb-4">
+                                <textarea class="form-control" id="textAreaExample" rows="4" name="purpose" required></textarea>
+                                <label class="form-label" for="textAreaExample">Purpose</label>
+                            </div>
+                          
+                            <!-- 2 column grid layout for inline styling -->
+                            <div class="row mb-4">
+                              <div class="col d-flex justify-content-center">
+                                <!-- Checkbox -->
+                                <div class="form-check">
+                                  <input
+                                    class="form-check-input"
+                                    type="checkbox"
+                                    value=""
+                                    id="form1Example3"
+                                  required/>
+                                  <label class="form-check-label" for="form1Example3">I have read and accept the conditions stated above.</label>
+                                </div>
+                              </div>
+                            </div>
+                          
+                            <!-- Submit button -->
+                            <button type="submit" class="btn btn-primary btn-block">Submit</button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-mdb-dismiss="modal">
+                Close
+                </button>
+            </div>
+            </div>
+        </div>
+    </div>
+    <%-include('../css_js/login_js')%>
+</body>
+</html>

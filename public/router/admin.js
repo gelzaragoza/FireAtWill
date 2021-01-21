@@ -32,6 +32,21 @@ router.get("/client",(req,res)=>{
     })
 })
 
+router.get("/adminlogin",(req,res)=>{
+    res.render("admin/adminlogin")
+})
+
+router.get("/adminregistration",(req,res)=>{
+    res.render("admin/adminregistration")
+})
+
+router.get("/appointments",(req,res)=>{
+    mysql.getAllAppointments((app)=>{
+        let months = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"];
+        res.render("admin/appointments",{apps:app,months:months});
+    })
+});
+
 router.post("/client",(req,res)=>{
     console.log(req.body)
     mysql.addClient(req.body,()=>{
