@@ -46,7 +46,10 @@ router.get("/session_records",(req,res)=>{
 })
 
 router.get("/transaction_records",(req,res)=>{
-    res.render("admin/transaction_records");
+    // res.render("admin/transaction_records");
+    mysql.getTransactions((transaction,tran_sesh)=>{
+        res.render("admin/transaction_records", {transactions:transaction[0], tran_seshes:transaction[1]})
+    })
 })
 
 module.exports= router;
