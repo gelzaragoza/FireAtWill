@@ -13,6 +13,13 @@ router.get("/artist",(req,res)=>{
     })
 })
 
+router.post("/artist",(req,res)=>{
+    console.log(req.body)
+    mysql.addArtist(req.body,()=>{
+        res.redirect("/admin/artist")
+    })
+})
+
 router.get("/client",(req,res)=>{
     mysql.getClient((client)=>{
         console.log(client)
@@ -27,19 +34,15 @@ router.post("/client",(req,res)=>{
     })
 })
 
-router.post("/artist",(req,res)=>{
-    console.log(req.body)
-    mysql.addArtist(req.body,()=>{
-        res.redirect("/admin/artist")
-    })
-})
-
 router.get("/project_records",(req,res)=>{
     res.render("admin/project_records");
 })
 
 router.get("/session_records",(req,res)=>{
-    res.render("admin/session_records");
+    // res.render("admin/session_records");
+    mysql.getSessions((session)=>{
+        res.render("admin/session_records", {sessions:session})
+    })
 })
 
 router.get("/transaction_records",(req,res)=>{
