@@ -35,7 +35,10 @@ router.post("/client",(req,res)=>{
 })
 
 router.get("/project_records",(req,res)=>{
-    res.render("admin/project_records");
+    // res.render("admin/project_records");
+    mysql.getProjects((project)=>{
+        res.render("admin/project_records", {projects:project})
+    })
 })
 
 router.get("/session_records",(req,res)=>{
@@ -47,7 +50,7 @@ router.get("/session_records",(req,res)=>{
 
 router.get("/transaction_records",(req,res)=>{
     // res.render("admin/transaction_records");
-    mysql.getTransactions((transaction,tran_sesh)=>{
+    mysql.getTransactions((transaction)=>{
         res.render("admin/transaction_records", {transactions:transaction[0], tran_seshes:transaction[1]})
     })
 })

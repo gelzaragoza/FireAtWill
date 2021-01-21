@@ -43,20 +43,24 @@
                                 </tr>
                             </thead>
                             <tbody>
-                                <tr>
-                                    <td>1</td>
-                                    <td>Jayson Cadiz</td>
-                                    <td>Eque Daculan</td>
-                                    <td>Picture here</td>
-                                    <td>Colored/B&W</td>
-                                    <td>Small Medium Large</td>
-                                    <td>January 10, 2021</td>
-                                    <td>January 10, 2021</td>
-                                    <td>Ongoing/Complete</td>
-                                    <td>
-                                        <button class="btn btn-warning btn-floating"><i class="fas fa-edit"></i></button>
-                                    </td>
-                                </tr>
+                            <%projects.forEach((project)=>{%>
+                                <a href="admin/session_records?Project_id=<%=project.Project_Number%>"></a>
+                                    <tr>
+                                        <td><%=project.Project_Number%></td>
+                                        <td><%=project.client_name%></td>
+                                        <td><%=project.artist_name%></td>
+                                        <td><%=project.Design_Name%></td>
+                                        <td><%=project.Color%></td>
+                                        <td><%=project.Size%></td>
+                                        <td><%=project.Date_Started%></td>
+                                        <td><%=project.Date_Finished%></td>
+                                        <td><%=project.Status%></td>
+                                        <td>
+                                            <button class="btn btn-warning btn-floating"><i class="fas fa-edit"></i></button>
+                                        </td>
+                                    </tr>
+                                </a>
+                            <%})%>
                             </tbody>
                         </table>
                     </div>
@@ -90,6 +94,7 @@
                     <div class="input-group flex-nowrap mb-4">
                         <span class="input-group-text" id="addon-wrapping">Client</span>
                         <select name="" id="" class="form-control" >
+                            <!--display client list-->
                             <option value="" disabled selected>Optional if a design is to be submitted</option>
                             <option value="">asd</option>
                             <option value="">asd</option>
@@ -98,6 +103,7 @@
                     <div class="input-group flex-nowrap mb-4">
                         <span class="input-group-text" id="addon-wrapping">Artist</span>
                         <select name="" id="" class="form-control" >
+                            <!--display artist list-->
                             <option value="" disabled selected>Optional if a design is to be submitted</option>
                             <option value="">asd</option>
                             <option value="">asd</option>
@@ -106,6 +112,7 @@
                     <div class="input-group flex-nowrap mb-4">
                         <span class="input-group-text" id="addon-wrapping">Design</span>
                         <select name="" id="" class="form-control" >
+                            <!--display design list-->
                             <option value="" disabled selected>Optional if a design is to be submitted</option>
                             <option value="">asd</option>
                             <option value="">asd</option>
@@ -114,6 +121,7 @@
                     <div class="input-group flex-nowrap mb-4">
                         <span class="input-group-text" id="addon-wrapping">Color</span>
                         <select name="" id="" class="form-control" >
+                            <!--display color list-->
                             <option value="" disabled selected>Optional if a design is to be submitted</option>
                             <option value="">asd</option>
                             <option value="">asd</option>
@@ -122,6 +130,7 @@
                     <div class="input-group flex-nowrap mb-4">
                         <span class="input-group-text" id="addon-wrapping">Size</span>
                         <select name="" id="" class="form-control" >
+                            <!--display size list-->
                             <option value="" disabled selected>Optional if a design is to be submitted</option>
                             <option value="">asd</option>
                             <option value="">asd</option>
