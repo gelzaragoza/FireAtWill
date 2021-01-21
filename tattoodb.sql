@@ -1,5 +1,5 @@
-CREATE DATABASE tattoo_db;
-USE tattoo_db;
+CREATE DATABASE newtattoo_db;
+USE newtattoo_db;
 
 CREATE TABLE Artist(
     Artist_ID int NOT NULL AUTO_INCREMENT,
@@ -30,7 +30,7 @@ CREATE TABLE Client(
     Contact_Number VARCHAR(11) NOT NULL,
     City VARCHAR(30) NOT NULL,
     Street VARCHAR(30) NOT NULL,
-    Address VARCHAR(30) NOT NULL,
+    Address VARCHAR(100) NOT NULL,
     Remarks VARCHAR (50) NOT NULL,
     CONSTRAINT Client_ID_PK_C PRIMARY KEY(Client_ID)
 );
@@ -97,3 +97,8 @@ CREATE TABLE Appointment(
     CONSTRAINT Image_Archive_FK_AR FOREIGN KEY (Image_Archive_ID) REFERENCES Design_Archive(Design_ID),
     CONSTRAINT Client_ID_FK_AR FOREIGN KEY (Client_ID) REFERENCES client(Client_ID)
 );
+
+INSERT INTO Design_Archive(Design_Name,Image_Link,Image_Tags,Image_Desc) VALUES('Dummy','Dummy','Dummy','Dummy');
+UPDATE Design_Archive SET Design_ID=0 WHERE Design_ID=1;
+INSERT INTO Design_Archive(Design_Name,Image_Link,Image_Tags,Image_Desc) VALUES('Tribal','https://www.askideas.com/media/73/Cool-Tribal-Tattoo-Design.jpg','Cool Awesome Savage','Basic design for starters');
+INSERT INTO admin_accounts(First_Name,Last_Name,username,admin_pass) VALUES('Admin','Account','admin','admin');
