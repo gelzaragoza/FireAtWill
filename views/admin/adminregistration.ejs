@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin Registration</title>
+    <%-include('../css_js/landing_css')%>
+    <%-include('../css_js/login_css')%>
+</head>
+<body style="background-color: slategray;">
+    <%-include('../sections/admin_nav')%>
+    <div class="container">
+        <div class="row" style="margin-top: 10%;">
+            <div class="col-md-4"></div>
+            <div class="col-md-4 p-5" style="background-color:white;">
+                <div class="text-center">
+                    <h1>Register Here</h1>
+                </div>
+                <form method="POST" action="/clientlogin">
+                    <div class="form-outline mb-4">
+                        <input type="text" id="firstname" class="form-control" name="firstname" title="Enter your firstname" required>
+                        <label class="form-label" for="form1Example1">First Name</label>
+                    </div>
+                    <div class="form-outline mb-4">
+                        <input type="text" id="lastname" class="form-control" name="lastname" title="Enter your lastname" required>
+                        <label class="form-label" for="form1Example1">Last Name</label>
+                    </div>
+                    <div class="form-outline mb-4">
+                        <input type="text" id="username" class="form-control" name="username" title="Enter your username" required>
+                        <label class="form-label" for="form1Example1">Username</label>
+                    </div>
+                    <div class="form-outline mb-4">
+                        <input type="text" id="password" class="form-control" name="password" title="Enter your password" required>
+                        <label class="form-label" for="form1Example1">Password</label>
+                    </div>
+                    
+                    <button type="submit" class="btn btn-primary btn-block">Log In</button>
+                </form>
+            </div>
+            <div class="col-md-4"></div>
+        </div><br><br><br>
+    </div>
+    <%-include('../css_js/landing_js')%>
+    <%-include('../css_js/login_js')%>
+</body>
+</html>

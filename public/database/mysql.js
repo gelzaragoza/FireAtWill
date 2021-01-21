@@ -3,7 +3,7 @@ const connection = mysql.createConnection({
     host: "127.0.0.1",
     user: "root",
     password: "",
-    database: "newtattoo_db",
+    database: "tattoo_db",
     multipleStatements: true
 });
 connection.connect((err)=>{
@@ -31,6 +31,12 @@ module.exports = {
     },
     getAppointments: function(id,callback){
         connection.query("SELECT * FROM appointment WHERE Client_ID="+id,(err,app)=>{
+            if(err) throw(err);
+            callback(app);
+        });
+    },
+    getAllAppointments: function(callback){
+        connection.query("SELECT * FROM appointment",(err,app)=>{
             if(err) throw(err);
             callback(app);
         });
@@ -94,8 +100,15 @@ module.exports = {
             if(err) throw(err);
             callback(project);
         })
+    },
+    getDashboard: function(callback){
+        connection.query("SELECT * FROM appointment WHERE Status='Pending'; SELECT * FROM appointment WHERE Appointment_Date=CURDATE(); SELECT * FROM project_records WHERE Status='Ongoing'",(err, dashboard)=>{
+            if(err) throw(err);
+            callback(dashboard);
+        })
     }
 }
+
 /*
     functioname: function(param1,param2...){
         connection.query("SQL QUERY HERE", (err,variable_name)=>{

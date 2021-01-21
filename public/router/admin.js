@@ -2,8 +2,13 @@ const express = require("express");
 const router = express.Router();
 const mysql = require("../database/mysql.js")
 
+
+
 router.get("/",(req,res)=>{
-    res.render("admin/dashboard");
+    mysql.getDashboard((dashboard)=>{
+       res.render("admin/dashboard", {appCount:dashboard[0],appCur:dashboard[1],onProj:dashboard[2]}
+       );      
+    })
 })
 
 router.get("/artist",(req,res)=>{
@@ -27,6 +32,21 @@ router.get("/client",(req,res)=>{
     })
 })
 
+router.get("/adminlogin",(req,res)=>{
+    res.render("admin/adminlogin")
+})
+
+router.get("/adminregistration",(req,res)=>{
+    res.render("admin/adminregistration")
+})
+
+router.get("/appointments",(req,res)=>{
+    mysql.getAllAppointments((app)=>{
+        let months = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"];
+        res.render("admin/appointments",{apps:app,months:months});
+    })
+});
+
 router.post("/client",(req,res)=>{
     console.log(req.body)
     mysql.addClient(req.body,()=>{
@@ -37,7 +57,12 @@ router.post("/client",(req,res)=>{
 router.get("/project_records",(req,res)=>{
     // res.render("admin/project_records");
     mysql.getProjects((project)=>{
-        res.render("admin/project_records", {projects:project})
+        mysql.getClient((client)=>{
+            mysql.getArtist((artist)=>{
+                
+                res.render("admin/project_records", {projects:project, clients:client, artists:artist})
+            })          
+        })   
     })
 })
 
