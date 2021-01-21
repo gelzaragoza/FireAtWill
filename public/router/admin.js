@@ -6,7 +6,7 @@ const mysql = require("../database/mysql.js")
 
 router.get("/",(req,res)=>{
     mysql.getDashboard((dashboard)=>{
-       res.render("admin/dashboard", {appCount:dashboard[0],appCur:dashboard[1],onProj:dashboard[2]}
+       res.render("admin/dashboard", {appCount:dashboard[0],appCur:dashboard[1],onProj:dashboard[2],clients:dashboard[3]}
        );      
     })
 })

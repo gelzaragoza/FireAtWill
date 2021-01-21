@@ -90,7 +90,7 @@ module.exports = {
         })
     },
     getDashboard: function(callback){
-        connection.query("SELECT * FROM appointment WHERE Status='Pending'; SELECT * FROM appointment WHERE Appointment_Date=CURDATE(); SELECT * FROM project_records WHERE Status='Ongoing'",(err, dashboard)=>{
+        connection.query("SELECT * FROM appointment WHERE Status='Pending' OR Status='Approved'; SELECT * FROM appointment WHERE Appointment_Date=CURDATE(); SELECT * FROM project_records WHERE Status='Ongoing'; SELECT * FROM client",(err, dashboard)=>{
             if(err) throw(err);
             callback(dashboard);
         })

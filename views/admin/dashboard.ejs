@@ -122,54 +122,22 @@
                initialDate: '2021-01-12',
                eventColor: 'green',
                events: [
-               {
-                   title: 'Client Meeting',
-                   start: '2021-01-01'
-               },
-               {
-                   title: 'Long Event',
-                   start: '2021-01-07',
-                   end: '2021-01-10',
-                   color: 'purple' // override!
-               },
-               {
-                   groupId: '999',
-                   title: 'Repeating Event',
-                   start: '2021-01-09T16:00:00'
-               },
-               {
-                   groupId: '999',
-                   title: 'Repeating Event',
-                   start: '2021-01-16T16:00:00'
-               },
-               {
-                   title: 'Conference',
-                   start: '2021-01-11',
-                   end: '2021-01-13',
-                   color: 'purple' // override!
-               },
-               {
-                   title: 'Meeting',
-                   start: '2021-01-12T10:30:00',
-                   end: '2021-01-12T12:30:00'
-               },
-               {
-                   title: 'Lunch',
-                   start: '2021-01-12T12:00:00'
-               },
-               {
-                   title: 'Meeting',
-                   start: '2021-01-12T14:30:00'
-               },
-               {
-                   title: 'Birthday Party',
-                   start: '2021-01-13T07:00:00'
-               },
-               {
-                   title: 'Click for Google',
-                   url: 'http://google.com/',
-                   start: '2021-01-28'
-               }
+               <%appCount.forEach((app)=>{%>
+                  <%clients.forEach((client)=>{%>
+                     <%if(app.Client_ID==client.Client_ID&&app.Status=="Approved"){%>
+                           <%var month=""%>
+                           <%if(app.Appointment_Date.getMonth()+1<10){%>
+                                 <%month=month+app.Appointment_Date.getMonth()+1%>
+                           <%}else{%>
+                                 <%month=(app.Appointment_Date.getMonth()+1).toString()%>
+                           <%}%>
+                        {
+                           title: '<%=client.First_Name%> <%=client.Last_Name%>',
+                           start: '<%=app.Appointment_Date.getFullYear()%>-<%=month%>-<%=app.Appointment_Date.getDate()%>'
+                        },
+                     <%}%> 
+                  <%})%>
+               <%}) %>
                ]
            });
          
