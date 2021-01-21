@@ -95,45 +95,43 @@
                         <span class="input-group-text" id="addon-wrapping">Client</span>
                         <select name="clientname" id="" class="form-control" >
                             <!--display client list-->
-                            <option value="" disabled selected>Optional if a design is to be submitted</option>
-                            <option value="">asd</option>
-                            <option value="">asd</option>
+                            <%clients.forEach((client)=>{%>
+                                <option value="<%=client.Client_ID%>"><%=client.First_Name%> <%=client.Lasst_Name%></option>
+                            <%}%>
                         </select>
                     </div>
                     <div class="input-group flex-nowrap mb-4">
                         <span class="input-group-text" id="addon-wrapping">Artist</span>
                         <select name="artistname" id="" class="form-control" >
                             <!--display artist list-->
-                            <option value="" disabled selected>Optional if a design is to be submitted</option>
-                            <option value="">asd</option>
-                            <option value="">asd</option>
+                            <%artists.forEach((artist)=>{%>
+                                <option value="<%=artist.Artist_ID%>"><%=artist.First_Name%> <%=artist.Lasst_Name%></option>
+                            <%}%>
                         </select>
                     </div>
                     <div class="input-group flex-nowrap mb-4">
                         <span class="input-group-text" id="addon-wrapping">Design</span>
                         <select name="design" id="" class="form-control" >
                             <!--display design list-->
-                            <option value="" disabled selected>Optional if a design is to be submitted</option>
-                            <option value="">asd</option>
-                            <option value="">asd</option>
+                            <%designs.forEach((design)=>{%>
+                                <option value="<%=design.Design_ID%>"><%=design.Design_Name%></option>
+                            <%}%>
                         </select>
                     </div>
                     <div class="input-group flex-nowrap mb-4">
                         <span class="input-group-text" id="addon-wrapping">Color</span>
                         <select name="color" id="" class="form-control" >
-                            <!--display color list-->
-                            <option value="" disabled selected>Optional if a design is to be submitted</option>
-                            <option value="">asd</option>
-                            <option value="">asd</option>
+                            <option value="Colored">Colored</option>
+                            <option value="B/W">Black and White</option>
                         </select>
                     </div>
                     <div class="input-group flex-nowrap mb-4">
                         <span class="input-group-text" id="addon-wrapping">Size</span>
                         <select name="size" id="" class="form-control" >
                             <!--display size list-->
-                            <option value="" disabled selected>Optional if a design is to be submitted</option>
-                            <option value="">asd</option>
-                            <option value="">asd</option>
+                            <option value="Small">Small</option>
+                            <option value="Medium">Medium</option>
+                            <option value="Large">Large</option>
                         </select>
                     </div>
                     <div class="input-group flex-nowrap mb-4">

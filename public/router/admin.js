@@ -59,10 +59,18 @@ router.get("/project_records",(req,res)=>{
     mysql.getProjects((project)=>{
         mysql.getClient((client)=>{
             mysql.getArtist((artist)=>{
-                
-                res.render("admin/project_records", {projects:project, clients:client, artists:artist})
+                mysql.getDesign((design)=>{
+                    res.render("admin/project_records", {projects:project, clients:client, artists:artist, designs:design})
+                })  
             })          
         })   
+    })
+})
+
+router.post("/project_records",(req,res)=>{
+    console.log(req.body)
+    mysql.addProject(req.body,()=>{
+        res.redirect("/admin/project_records")
     })
 })
 
