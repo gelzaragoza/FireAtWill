@@ -1,41 +1,180 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Dashboard</title>
-    <%-include('../css_js/login_css')%>
-</head>
-<body style="background-color: slategray;">
-    <%-include('../sections/admin_nav')%>
-    <div class="container mt-5">
-        <div class="row">
-            <div class="col-md-6">
-                <div class="card">
-                    <div class="card-header h4">
-                        Notifications
-                    </div>
-                    <div class="card-body">
-                      <div class="alert alert-info">
-                        Unsay maayo ibutang dre? HAHAHAHA
-                      </div>
-                    </div>
-                </div>
+   <head>
+      <meta charset="UTF-8">
+      <meta http-equiv="X-UA-Compatible" content="IE=edge">
+      <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+      <meta name="description" content="">
+      <meta name="author" content="">
+      <title>Admin Dashboard</title>
+      <%-include('../css_js/login_css')%>
+      <link rel="stylesheet" href="https://cdn.jsdelivr.net/combine/npm/fullcalendar@5.5.1/main.min.css,npm/fullcalendar@5.5.1/main.min.css">
+   </head>
+   <body style="background-color: slategray;">
+      <%-include('../sections/admin_nav')%>
+      <!-- Content Wrapper -->
+      <div id="content-wrapper" class="d-flex flex-column">
+         <!-- Main Content -->
+         <div id="content">
+            <!-- Topbar -->
+            <nav class="navbar navbar-expand navbar-light bg-white topbar mb-4 static-top shadow">
+               <!-- Topbar Navbar -->
+               <ul class="navbar-nav ml-auto">
+                  <!-- Nav Item - Search Dropdown (Visible Only XS) -->
+                  <li class="nav-item dropdown no-arrow d-sm-none">
+                     <a class="nav-link dropdown-toggle" href="#" id="searchDropdown" role="button"
+                        data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                     <i class="fas fa-search fa-fw"></i>
+                     </a>
+               </ul>
+            </nav>
+            <!-- End of Topbar -->
+            <!-- Begin Page Content -->
+            <div class="container-fluid">
+               <!-- Page Heading -->
+               <!-- Content Row -->
+               <div class="row">
+                  <!-- Earnings (Monthly) Card Example -->
+                  <div class="col-xl-4 col-md-6 mb-4">
+                     <div class="card border-left-primary shadow h-100 py-2">
+                        <div class="card-body">
+                           <div class="row no-gutters align-items-center">
+                              <div class="col mr-2">
+                                 <div class="text-xs font-weight-bold text-primary text-uppercase mb-1">
+                                    Total Number of Appointments
+                                 </div>
+                                 <div class="h5 mb-0 font-weight-bold text-gray-800"><%=appCount.length%></div>
+                              </div>
+                              <div class="col-auto">
+                                 <i class="fas fa-calendar fa-2x text-gray-300"></i>
+                              </div>
+                           </div>
+                        </div>
+                     </div>
+                  </div>
+                  <!-- Earnings (Monthly) Card Example -->
+                  <div class="col-xl-4 col-md-6 mb-4">
+                     <div class="card border-left-success shadow h-100 py-2">
+                        <div class="card-body">
+                           <div class="row no-gutters align-items-center">
+                              <div class="col mr-2">
+                                 <div class="text-xs font-weight-bold text-success text-uppercase mb-1">
+                                    Today's Appointments
+                                 </div>
+                                 <div class="h5 mb-0 font-weight-bold text-gray-800"><%=appCur.length%></div>
+                              </div>
+                              <div class="col-auto">
+                                 <i class="fas fa-clipboard-list fa-2x text-gray-300"></i>
+                              </div>
+                           </div>
+                        </div>
+                     </div>
+                  </div>
+                  <!-- Earnings (Monthly) Card Example -->
+                  <div class="col-xl-4 col-md-6 mb-4">
+                     <div class="card border-left-success shadow h-100 py-2">
+                        <div class="card-body">
+                           <div class="row no-gutters align-items-center">
+                              <div class="col mr-2">
+                                 <div class="text-xs font-weight-bold text-info text-uppercase mb-1">Ongoing Projects
+                                 </div>
+                                 <div class="h5 mb-0 font-weight-bold text-gray-800"><%=onProj.length%></div>
+                              </div>
+                              <div class="col-auto">
+                                 <i class="fas fa-clipboard-list fa-2x text-gray-300"></i>
+                              </div>
+                           </div>
+                        </div>
+                     </div>
+                  </div>
+               </div>
+               <div class="row mb-5">
+                  <div class="col-md-1"> </div>
+                  <div class="col-md-10">
+                     <div class="card shadow mb-12">
+                        <div class="card-header py-3">
+                           <div class="text-xs font-weight-bold text-success text-uppercase mb-1">
+                              CALENDAR
+                           </div>
+                           <div id='calendar'></div>
+                        </div>
+                     </div>
+                  </div>
+                  <div class="col-md-1"> </div>
+               </div>
+               <!-- Calendar -->
             </div>
-            <div class="col-md-6">
-                <div class="card">
-                    <div class="card-header h4">
-                        Notifications
-                    </div>
-                    <div class="card-body">
-                      <div class="alert alert-info">
-                        Unsay maayo ibutang dre? HAHAHAHA
-                      </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-    <%-include('../css_js/login_js')%>
-</body>
+         </div>
+      </div>
+      <!-- /.container-fluid -->
+      </div>
+      <!-- End of Main Content -->
+      <%-include('../css_js/dashboard')%>
+      <script src="https://cdn.jsdelivr.net/combine/npm/fullcalendar@5.5.1,npm/fullcalendar@5.5.1/main.min.js"></script>
+      <script>
+         document.addEventListener('DOMContentLoaded', function() {
+           var calendarEl = document.getElementById('calendar');
+         
+           var calendar = new FullCalendar.Calendar(calendarEl, {
+               height: 600,
+               contentHeight: 450,
+               initialView: 'dayGridMonth',
+               initialDate: '2021-01-12',
+               eventColor: 'green',
+               events: [
+               {
+                   title: 'Client Meeting',
+                   start: '2021-01-01'
+               },
+               {
+                   title: 'Long Event',
+                   start: '2021-01-07',
+                   end: '2021-01-10',
+                   color: 'purple' // override!
+               },
+               {
+                   groupId: '999',
+                   title: 'Repeating Event',
+                   start: '2021-01-09T16:00:00'
+               },
+               {
+                   groupId: '999',
+                   title: 'Repeating Event',
+                   start: '2021-01-16T16:00:00'
+               },
+               {
+                   title: 'Conference',
+                   start: '2021-01-11',
+                   end: '2021-01-13',
+                   color: 'purple' // override!
+               },
+               {
+                   title: 'Meeting',
+                   start: '2021-01-12T10:30:00',
+                   end: '2021-01-12T12:30:00'
+               },
+               {
+                   title: 'Lunch',
+                   start: '2021-01-12T12:00:00'
+               },
+               {
+                   title: 'Meeting',
+                   start: '2021-01-12T14:30:00'
+               },
+               {
+                   title: 'Birthday Party',
+                   start: '2021-01-13T07:00:00'
+               },
+               {
+                   title: 'Click for Google',
+                   url: 'http://google.com/',
+                   start: '2021-01-28'
+               }
+               ]
+           });
+         
+           calendar.render();
+           });
+      </script>
+   </body>
 </html>

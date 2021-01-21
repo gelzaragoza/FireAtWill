@@ -88,8 +88,15 @@ module.exports = {
             if(err) throw(err);
             callback(transaction);
         })
+    },
+    getDashboard: function(callback){
+        connection.query("SELECT * FROM appointment WHERE Status='Pending'; SELECT * FROM appointment WHERE Appointment_Date=CURDATE(); SELECT * FROM project_records WHERE Status='Ongoing'",(err, dashboard)=>{
+            if(err) throw(err);
+            callback(dashboard);
+        })
     }
 }
+
 /*
     functioname: function(param1,param2...){
         connection.query("SQL QUERY HERE", (err,variable_name)=>{
