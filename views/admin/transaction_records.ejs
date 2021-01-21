@@ -20,6 +20,14 @@
         <br><br>
 
         <div class="card">
+            <%if(transactions.length==0){%>
+                <div class="card" style="background-color: bisque;">
+                    <div class="card-body text-center">You have no recorded sessions</div>
+                </div>
+            <%}%>
+        </div>
+        <br>
+        <div class="card">
             <table class="table table-sm table-hover align-middle">
                 <thead class="table-light">
                   <tr>
@@ -31,53 +39,42 @@
                   </tr>
                 </thead>
                 <tbody>
+                <%transactions.forEach((transaction)=>{%>
                   <tr>
-                    <th scope="row">1</th>
-                    <td>Mark</td>
-                    <td>Otto</td>
-                    <td>@mdo</td>
-                    <td>
+                    <th scope="row"><%=transaction.session_num%></th>
+                    <td class="text-center"><%=transaction.client_name%></td>
+                    <td class="text-center"><%=transaction.artist_name%></td>
+                    <td class="text-center"><%=transaction.session_date%></td>
+                    <td class="text-center">
                         <!-- Button trigger modal -->
-                        <button type="button" class="btn btn-primary btn-floating" data-mdb-toggle="modal" data-mdb-target="#exampleModal">
+                        <button type="button" class="btn btn-primary btn-floating" data-mdb-toggle="modal" data-mdb-target="#transactionDetails">
                             <i class="fas fa-info"></i>
                         </button>
                     </td>
-                  </tr>
-                  <tr>
-                    <th scope="row">2</th>
-                    <td>Jacob</td>
-                    <td>Thornton</td>
-                    <td>Thornton</td>
-                    <td>
-                        <!-- Button trigger modal -->
-                        <button type="button" class="btn btn-primary btn-floating" data-mdb-toggle="modal" data-mdb-target="#exampleModal">
-                            <i class="fas fa-info"></i>
-                        </button>
-                    </td>
-                  </tr>
-                  <tr>
+                </tr>
+
+                <!-- Modal -->
+                <div class="modal fade" id="transactionDetails" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                    <div class="modal-dialog">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                            <h5 class="modal-title" id="exampleModalLabel">Transaction Details</h5>
+                            <button type="button" class="btn-close" data-mdb-dismiss="modal" aria-label="Close"></button>
+                            </div>
+                            <div class="modal-body">
+                                full transaction details here
+                            </div>
+                            <div class="modal-footer">
+                            <button type="button" class="btn btn-secondary" data-mdb-dismiss="modal">
+                                Close
+                            </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            <%})%>
                 </tbody>
             </table>
-        </div>
-    </div>
-
-    <!-- Modal -->
-    <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-        <div class="modal-dialog">
-            <div class="modal-content">
-                <div class="modal-header">
-                <h5 class="modal-title" id="exampleModalLabel">Transaction Details</h5>
-                <button type="button" class="btn-close" data-mdb-dismiss="modal" aria-label="Close"></button>
-                </div>
-                <div class="modal-body">
-                    full transaction details here
-                </div>
-                <div class="modal-footer">
-                <button type="button" class="btn btn-secondary" data-mdb-dismiss="modal">
-                    Close
-                </button>
-                </div>
-            </div>
         </div>
     </div>
 <%-include('../css_js/landing_js')%>
