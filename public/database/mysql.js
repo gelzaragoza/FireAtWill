@@ -76,6 +76,12 @@ module.exports = {
             if(err) throw(err);
             callback(session);
         })
+    },
+    getTransactions: function(callback){
+        connection.query("SELECT payment.Receipt_ID AS receipt_id, payment.Payment_ID AS payment_id, design_archive.Design_ID as design_id, project_records.Project_Number AS project_number, (client.First_Name + client.Last_Name) AS client_name, tattoo_session.Session_Number AS session_number, SUM(payment.Amount) AS total_payment FROM payment INNER JOIN client ON payment.Client_ID=client.Client_ID INNER JOIN tattoo_session ON payment.Session_Number=tattoo_session.Session_Number INNER JOIN project_records ON tattoo_session.Project_Number=project_records.Project_Number INNER JOIN design_archive ON project_records.Design_ID=design_archive.Design_ID GROUP BY project_records.Project_Number; SELECT payment.Receipt_ID AS receipt_id, project_records.Project_Number AS project_number, tattoo_session.Session_Number AS session_number, tattoo_session.Time_Started AS session_start, tattoo_session.Time_Finised AS session_end, tattoo_session.Session_Date AS session_date, payment.Amount AS session_payment FROM payment INNER JOIN tattoo_session ON payment.Session_Number=tattoo_session.Session_Number INNER JOIN project_records ON tattoo_session.Project_Number=project_records.Project_Number GROUP BY project_records.Project_Number",(err,transaction)=>{
+            if(err) throw(err);
+            callback(transaction);
+        })
     }
 }
 /*
