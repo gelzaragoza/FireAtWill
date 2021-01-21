@@ -2,8 +2,13 @@ const express = require("express");
 const router = express.Router();
 const mysql = require("../database/mysql.js")
 
+
+
 router.get("/",(req,res)=>{
-    res.render("admin/dashboard");
+    mysql.getDashboard((dashboard)=>{
+       res.render("admin/dashboard", {appCount:dashboard[0],appCur:dashboard[1],onProj:dashboard[2]}
+       );      
+    })
 })
 
 router.get("/artist",(req,res)=>{
