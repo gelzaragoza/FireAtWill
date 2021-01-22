@@ -3,7 +3,7 @@ const connection = mysql.createConnection({
     host: "127.0.0.1",
     user: "root",
     password: "",
-    database: "tattoo_db",
+    database: "newtattoo_db",
     multipleStatements: true
 });
 connection.connect((err)=>{
@@ -30,7 +30,7 @@ module.exports = {
         });
     },
     addApointments: function(body,id,callback){
-        if(body.imglink==""&& parseInt(body.imgarc)==0){
+        if(body.imglink==""&& parseInt(body.imgarc)==0 || body.imgarc==undefined){
             connection.query("INSERT INTO appointment(Client_id,Date_Created,Appointment_Date,Image_Submission,Image_Archive_ID,purpose,Status) VALUES("+id+",CURDATE(),'"+body.date+"','N/A',0,'"+body.purpose+"','Pending')",(err,res)=>{
                 if(err) throw(err);
                 callback();

@@ -19,7 +19,6 @@ router.get("/appointments",(req,res)=>{
 });
 
 router.post("/preview",(req,res)=>{
-    console.log(req.query)
     if(parseInt(req.query.id)==0){
         res.end();
     }else{
