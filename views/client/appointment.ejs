@@ -181,12 +181,12 @@
                         </div>
                     <%}else{%>
                         <div class="row mb-1">
-                            <p class="note note-light">
-                                <strong>Image Submission:</strong> <%=months[app.Appointment_Date.getMonth()]%> <%=app.Appointment_Date.getDate()%>, <%=app.Appointment_Date.getFullYear()%>
-                            </p>
                             <div class="col-md-12">
+                                <p class="note note-light">
+                                    <strong>Image Submission:</strong>
+                                </p>
                                 <img
-                                    src="https://mdbootstrap.com/img/new/standard/city/041.jpg"
+                                    src="<%=app.Image_Submission%>"
                                     class="img-thumbnail"
                                     alt="..."
                                 />
@@ -203,15 +203,19 @@
                         </div>
                     <%}else{%>
                         <div class="row mb-1">
-                            <p class="note note-light">
-                                <strong>Design From Archive:</strong> <%=months[app.Appointment_Date.getMonth()]%> <%=app.Appointment_Date.getDate()%>, <%=app.Appointment_Date.getFullYear()%>
-                            </p>
                             <div class="col-md-12">
-                                <img
-                                    src="https://mdbootstrap.com/img/new/standard/city/041.jpg"
-                                    class="img-thumbnail"
-                                    alt="..."
-                                />
+                                <p class="note note-light">
+                                    <strong>Design From Archive:</strong>
+                                </p>
+                                <%images.forEach((image)=>{%>
+                                    <%if(image.Design_ID==app.Image_Archive_ID){%>
+                                        <img
+                                            src="<%=image.Image_Link%>"
+                                            class="img-thumbnail"
+                                            alt="..."
+                                        />
+                                    <%}%>
+                                <%})%>  
                             </div>
                         </div>
                     <%}%>
@@ -260,7 +264,8 @@
                 url:"/client/preview?id="+$("#imageselect").val()
             }).done((data,status)=>{
                 if(status=="success"){
-                    console.log(data);
+                    $("#imgpreview").empty();
+                    $("#imgpreview").html(data);
                 }
             });
         }

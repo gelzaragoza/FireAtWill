@@ -12,7 +12,10 @@ connection.connect((err)=>{
 })
 module.exports = {
     previewImage: function(id,callback){
-
+        connection.query("SELECT * FROM design_archive WHERE Design_ID="+id,(err,img)=>{
+            if(err) throw(err);
+            callback(img);
+        })
     },
     getGallery: function(callback){
         connection.query("SELECT * FROM design_archive WHERE Design_ID>0",(err,imgs)=>{
@@ -27,7 +30,7 @@ module.exports = {
         });
     },
     addApointments: function(body,id,callback){
-        if(body.imglink==""&&body.imgarc==0){
+        if(body.imglink==""&& parseInt(body.imgarc)==0){
             connection.query("INSERT INTO appointment(Client_id,Date_Created,Appointment_Date,Image_Submission,Image_Archive_ID,purpose,Status) VALUES("+id+",CURDATE(),'"+body.date+"','N/A',0,'"+body.purpose+"','Pending')",(err,res)=>{
                 if(err) throw(err);
                 callback();
@@ -38,7 +41,7 @@ module.exports = {
                 callback();
             })
         }else{
-            connection.query("INSERT INTO appointment(Client_id,Date_Created,Appointment_Date,Image_Submission,Image_Archive_ID,purpose,Status) VALUES("+id+",CURDATE(),'"+body.date+"','N/A',1,'"+body.purpose+"','Pending')",(err,res)=>{
+            connection.query("INSERT INTO appointment(Client_id,Date_Created,Appointment_Date,Image_Submission,Image_Archive_ID,purpose,Status) VALUES("+id+",CURDATE(),'"+body.date+"','N/A','"+body.imgarc+"','"+body.purpose+"','Pending')",(err,res)=>{
                 if(err) throw(err);
                 callback();
             })
