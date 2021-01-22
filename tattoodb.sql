@@ -8,7 +8,7 @@ CREATE TABLE Artist(
     Contact_Number VARCHAR(11) NOT NULL,
     City VARCHAR(30) NOT NULL,
     Street VARCHAR(30) NOT NULL,
-    Address VARCHAR(30) NOT NULL,
+    Address VARCHAR(255) NOT NULL,
     Rate FLOAT NOT NULL,
     CONSTRAINT Artist_ID_PK_Art PRIMARY KEY(Artist_ID)
 );
@@ -30,7 +30,7 @@ CREATE TABLE Client(
     Contact_Number VARCHAR(11) NOT NULL,
     City VARCHAR(30) NOT NULL,
     Street VARCHAR(30) NOT NULL,
-    Address VARCHAR(100) NOT NULL,
+    Address VARCHAR(255) NOT NULL,
     Remarks VARCHAR (50) NOT NULL,
     CONSTRAINT Client_ID_PK_C PRIMARY KEY(Client_ID)
 );
@@ -89,7 +89,7 @@ CREATE TABLE Appointment(
     Client_ID int NOT NULL,
     Date_Created date NOT NULL,
     Appointment_Date date NOT NULL,
-    Image_Submission VARCHAR(20) NULL,
+    Image_Submission VARCHAR(255) NULL,
     Image_Archive_ID int NULL,
     purpose varchar(255) NOT NULL,
     Status varchar(30) NOT NULL,

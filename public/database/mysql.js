@@ -11,6 +11,9 @@ connection.connect((err)=>{
     console.log("Database Connected");
 })
 module.exports = {
+    previewImage: function(id,callback){
+
+    },
     getGallery: function(callback){
         connection.query("SELECT * FROM design_archive WHERE Design_ID>0",(err,imgs)=>{
             if(err) throw(err);
@@ -24,7 +27,7 @@ module.exports = {
         });
     },
     addApointments: function(body,id,callback){
-        if(body.imglink==""&&body.imgarc==undefined){
+        if(body.imglink==""&&body.imgarc==0){
             connection.query("INSERT INTO appointment(Client_id,Date_Created,Appointment_Date,Image_Submission,Image_Archive_ID,purpose,Status) VALUES("+id+",CURDATE(),'"+body.date+"','N/A',0,'"+body.purpose+"','Pending')",(err,res)=>{
                 if(err) throw(err);
                 callback();
@@ -78,7 +81,7 @@ module.exports = {
         })
     },
     addProject: function(body,callback){
-        connection.query("INSERT INTO project_records(Client_ID, Design_ID, Artist_ID, Status, Color, Size, Date_Started, Date_Finished) VALUES()",(err,res)=>{
+        connection.query("INSERT INTO project_records(Client_ID, Design_ID, Artist_ID, Status, Color, Size, Date_Started, Date_Finished) VALUES('"+body.clientname+"', '"+body.design+"', '"+body.artistname+"', 'Ongoing', '"+body.color+"', '"+body.size+"', '"+body.date+"', NULL)", (err,res)=>{
             if(err) throw(err);
             callback();
         })

@@ -96,8 +96,8 @@
                         <select name="clientname" id="" class="form-control" >
                             <!--display client list-->
                             <%clients.forEach((client)=>{%>
-                                <option value="<%=client.Client_ID%>"><%=client.First_Name%> <%=client.Lasst_Name%></option>
-                            <%}%>
+                                <option value="<%=client.Client_ID%>"><%=client.First_Name%> <%=client.Last_Name%></option>
+                            <%})%>
                         </select>
                     </div>
                     <div class="input-group flex-nowrap mb-4">
@@ -105,8 +105,8 @@
                         <select name="artistname" id="" class="form-control" >
                             <!--display artist list-->
                             <%artists.forEach((artist)=>{%>
-                                <option value="<%=artist.Artist_ID%>"><%=artist.First_Name%> <%=artist.Lasst_Name%></option>
-                            <%}%>
+                                <option value="<%=artist.Artist_ID%>"><%=artist.First_Name%> <%=artist.Last_Name%></option>
+                            <%})%>
                         </select>
                     </div>
                     <div class="input-group flex-nowrap mb-4">
@@ -115,7 +115,7 @@
                             <!--display design list-->
                             <%designs.forEach((design)=>{%>
                                 <option value="<%=design.Design_ID%>"><%=design.Design_Name%></option>
-                            <%}%>
+                            <%})%>
                         </select>
                     </div>
                     <div class="input-group flex-nowrap mb-4">

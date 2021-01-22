@@ -11,9 +11,22 @@ router.get("/",(req,res)=>{
 
 router.get("/appointments",(req,res)=>{
     mysql.getAppointments(req.session.userid,(app)=>{
-        let months = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"];
-        res.render("client/appointment",{apps:app,months:months});
+        mysql.getGallery((imgs)=>{
+            let months = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"];
+            res.render("client/appointment",{apps:app,months:months,images:imgs});
+        });
     })
+});
+
+router.post("/preview",(req,res)=>{
+    console.log(req.query)
+    if(parseInt(req.query.id)==0){
+        res.end();
+    }else{
+        mysql.previewImage(parseInt(req.query.id),(img)=>{
+            res.render("client/imgprev",{link:img[0].Image_Link});
+        })
+    }
 });
 
 router.post("/appointments", (req,res)=>{
