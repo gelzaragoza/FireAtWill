@@ -14,16 +14,17 @@
     <!-- Page Content -->
     
     <div class="container mt-5">
+        <h1 class="font-weight-light text-center text-lg-left mt-4 mb-0" style="color: white; font-family: 'Pirata One', cursive; letter-spacing: 10px; text-shadow: 2px 6px #272727;">Project Roster</h1>
+        <br><br>
         <div class="row">
             <div class="col-md-12">
                 <div class="card">
-                    <div class="card-header h4">
-                        Projects
-                    </div>
                     <div class="card-body">
+                    <%if(projects.length==0){%>
                       <div class="alert alert-info">
                         You have no projects
                       </div>
+                    <%}%>
                       <div style="float: right;">
                         <button class="btn btn-success btn-sm" data-mdb-toggle="modal" data-mdb-target="#project"><i class="fa fa-plus"></i> New Project</button>
                       </div>
@@ -44,22 +45,21 @@
                             </thead>
                             <tbody>
                             <%projects.forEach((project)=>{%>
-                                <a href="admin/session_records?Project_id=<%=project.Project_Number%>"></a>
-                                    <tr>
-                                        <td><%=project.Project_Number%></td>
-                                        <td><%=project.client_name%></td>
-                                        <td><%=project.artist_name%></td>
-                                        <td><%=project.Design_Name%></td>
-                                        <td><%=project.Color%></td>
-                                        <td><%=project.Size%></td>
-                                        <td><%=project.Date_Started%></td>
-                                        <td><%=project.Date_Finished%></td>
-                                        <td><%=project.Status%></td>
-                                        <td>
-                                            <button class="btn btn-warning btn-floating"><i class="fas fa-edit"></i></button>
-                                        </td>
-                                    </tr>
-                                </a>
+                                <tr>                                 
+                                    <td><%=project.Project_Number%></td>
+                                    <td><%=project.client_FN%> <%=project.client_LN%></td>
+                                    <td><%=project.artist_FN%> <%=project.artist_LN%></td>
+                                    <td><%=project.Design_Name%></td>
+                                    <td><%=project.Color%></td>
+                                    <td><%=project.Size%></td>
+                                    <td><%=months[project.Date_Started.getMonth()]%> <%=project.Date_Started.getDate()%>, <%=project.Date_Started.getFullYear()%></td>
+                                    <td><%=project.Date_Finished%></td>
+                                    <td><%=project.Status%></td>
+                                    <td>
+                                        <button class="btn btn-warning btn-floating"><i class="fas fa-edit"></i></button>
+                                        <a href="/admin/session_records?Project_id=<%=project.Project_Number%>&Client_name=<%=project.client_FN%>+<%=project.client_LN%>"><button class="btn btn-secondary btn-floating"><i class="fas fa-info"></i></button></a>
+                                    </td>
+                                </tr>
                             <%})%>
                             </tbody>
                         </table>
@@ -76,80 +76,80 @@
     aria-labelledby="exampleModalLabel"
     aria-hidden="true"
     >
-    <div class="modal-dialog">
-        <div class="modal-content">
-        <div class="modal-header">
-            <h5 class="modal-title" id="exampleModalLabel">New Project</h5>
-            <button
-            type="button"
-            class="btn-close"
-            data-mdb-dismiss="modal"
-            aria-label="Close"
-            ></button>
-        </div>
-        <form action="/admin/newproject" method="POST">
-        <div class="modal-body">
-            <div class="row">
-                <div class="col-md-12">
-                    <div class="input-group flex-nowrap mb-4">
-                        <span class="input-group-text" id="addon-wrapping">Client</span>
-                        <select name="clientname" id="" class="form-control" >
-                            <!--display client list-->
-                            <%clients.forEach((client)=>{%>
-                                <option value="<%=client.Client_ID%>"><%=client.First_Name%> <%=client.Last_Name%></option>
-                            <%})%>
-                        </select>
-                    </div>
-                    <div class="input-group flex-nowrap mb-4">
-                        <span class="input-group-text" id="addon-wrapping">Artist</span>
-                        <select name="artistname" id="" class="form-control" >
-                            <!--display artist list-->
-                            <%artists.forEach((artist)=>{%>
-                                <option value="<%=artist.Artist_ID%>"><%=artist.First_Name%> <%=artist.Last_Name%></option>
-                            <%})%>
-                        </select>
-                    </div>
-                    <div class="input-group flex-nowrap mb-4">
-                        <span class="input-group-text" id="addon-wrapping">Design</span>
-                        <select name="design" id="" class="form-control" >
-                            <!--display design list-->
-                            <%designs.forEach((design)=>{%>
-                                <option value="<%=design.Design_ID%>"><%=design.Design_Name%></option>
-                            <%})%>
-                        </select>
-                    </div>
-                    <div class="input-group flex-nowrap mb-4">
-                        <span class="input-group-text" id="addon-wrapping">Color</span>
-                        <select name="color" id="" class="form-control" >
-                            <option value="Colored">Colored</option>
-                            <option value="B/W">Black and White</option>
-                        </select>
-                    </div>
-                    <div class="input-group flex-nowrap mb-4">
-                        <span class="input-group-text" id="addon-wrapping">Size</span>
-                        <select name="size" id="" class="form-control" >
-                            <!--display size list-->
-                            <option value="Small">Small</option>
-                            <option value="Medium">Medium</option>
-                            <option value="Large">Large</option>
-                        </select>
-                    </div>
-                    <div class="input-group flex-nowrap mb-4">
-                        <span class="input-group-text" id="addon-wrapping">Date</span>
-                        <input type="date" name="date" class="form-control">
+        <div class="modal-dialog">
+            <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">New Project</h5>
+                <button
+                type="button"
+                class="btn-close"
+                data-mdb-dismiss="modal"
+                aria-label="Close"
+                ></button>
+            </div>
+            <form action="/admin/newproject" method="POST">
+            <div class="modal-body">
+                <div class="row">
+                    <div class="col-md-12">
+                        <div class="input-group flex-nowrap mb-4">
+                            <span class="input-group-text" id="addon-wrapping">Client</span>
+                            <select name="clientname" id="" class="form-control" required>
+                                <!--display client list-->
+                                <%clients.forEach((client)=>{%>
+                                    <option value="<%=client.Client_ID%>"><%=client.First_Name%> <%=client.Last_Name%></option>
+                                <%})%>
+                            </select>
+                        </div>
+                        <div class="input-group flex-nowrap mb-4">
+                            <span class="input-group-text" id="addon-wrapping">Artist</span>
+                            <select name="artistname" id="" class="form-control" required>
+                                <!--display artist list-->
+                                <%artists.forEach((artist)=>{%>
+                                    <option value="<%=artist.Artist_ID%>"><%=artist.First_Name%> <%=artist.Last_Name%></option>
+                                <%})%>
+                            </select>
+                        </div>
+                        <div class="input-group flex-nowrap mb-4">
+                            <span class="input-group-text" id="addon-wrapping">Design</span>
+                            <select name="design" id="" class="form-control" required>
+                                <!--display design list-->
+                                <%designs.forEach((design)=>{%>
+                                    <option value="<%=design.Design_ID%>"><%=design.Design_Name%></option>
+                                <%})%>
+                            </select>
+                        </div>
+                        <div class="input-group flex-nowrap mb-4">
+                            <span class="input-group-text" id="addon-wrapping">Color</span>
+                            <select name="color" id="" class="form-control" required>
+                                <option value="Colored">Colored</option>
+                                <option value="B/W">Black and White</option>
+                            </select>
+                        </div>
+                        <div class="input-group flex-nowrap mb-4">
+                            <span class="input-group-text" id="addon-wrapping">Size</span>
+                            <select name="size" id="" class="form-control" required>
+                                <!--display size list-->
+                                <option value="Small">Small</option>
+                                <option value="Medium">Medium</option>
+                                <option value="Large">Large</option>
+                            </select>
+                        </div>
+                        <div class="input-group flex-nowrap mb-4">
+                            <span class="input-group-text" id="addon-wrapping">Date</span>
+                            <input type="date" name="date" class="form-control" required>
+                        </div>
                     </div>
                 </div>
             </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-mdb-dismiss="modal">
+                Close
+                </button>
+                <button type="submit" class="btn btn-success"><i class="fa fa-plus"></i> Add</button>
+            </div>
+            </form>
+            </div>
         </div>
-        <div class="modal-footer">
-            <button type="button" class="btn btn-secondary" data-mdb-dismiss="modal">
-            Close
-            </button>
-            <button type="submit" class="btn btn-success"><i class="fa fa-plus"></i> Add</button>
-        </div>
-        </form>
-        </div>
-    </div>
     </div>
     <%-include('../css_js/login_js')%>
 </body>
