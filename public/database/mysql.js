@@ -66,7 +66,7 @@ module.exports = {
         })
     },
     addProject: function(body,callback){
-        connection.query("INSERT INTO project_records(Client_ID, Design_ID, Artist_ID, Status, Color, Size, Date_Started, Date_Finished) VALUES()",(err,res)=>{
+        connection.query("INSERT INTO project_records(Client_ID, Design_ID, Artist_ID, Status, Color, Size, Date_Started, Date_Finished) VALUES('"+body.clientname+"', '"+body.design+"', '"+body.artistname+"', 'Ongoing', '"+body.color+"', '"+body.size+"', '"+body.date+"', NULL)", (err,res)=>{
             if(err) throw(err);
             callback();
         })
