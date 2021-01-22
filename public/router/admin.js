@@ -55,7 +55,23 @@ router.post("/client",(req,res)=>{
 })
 
 router.get("/project_records",(req,res)=>{
-    res.render("admin/project_records");
+    // res.render("admin/project_records");
+    mysql.getProjects((project)=>{
+        mysql.getClient((client)=>{
+            mysql.getArtist((artist)=>{
+                mysql.getDesign((design)=>{
+                    res.render("admin/project_records", {projects:project, clients:client, artists:artist, designs:design})
+                })  
+            })          
+        })   
+    })
+})
+
+router.post("/project_records",(req,res)=>{
+    console.log(req.body)
+    mysql.addProject(req.body,()=>{
+        res.redirect("/admin/project_records")
+    })
 })
 
 router.get("/session_records",(req,res)=>{
@@ -67,7 +83,7 @@ router.get("/session_records",(req,res)=>{
 
 router.get("/transaction_records",(req,res)=>{
     // res.render("admin/transaction_records");
-    mysql.getTransactions((transaction,tran_sesh)=>{
+    mysql.getTransactions((transaction)=>{
         res.render("admin/transaction_records", {transactions:transaction[0], tran_seshes:transaction[1]})
     })
 })
