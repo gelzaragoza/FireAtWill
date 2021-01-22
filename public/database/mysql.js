@@ -3,7 +3,7 @@ const connection = mysql.createConnection({
     host: "127.0.0.1",
     user: "root",
     password: "",
-    database: "tattoo_db",
+    database: "newtattoo_db",
     multipleStatements: true
 });
 connection.connect((err)=>{
@@ -11,6 +11,18 @@ connection.connect((err)=>{
     console.log("Database Connected");
 })
 module.exports = {
+    getGallery: function(callback){
+        connection.query("SELECT * FROM design_archive WHERE Design_ID>0",(err,imgs)=>{
+            if(err) throw(err);
+            callback(imgs);
+        });
+    },
+    searchGallery: function(keyword,callback){
+        connection.query("SELECT * FROM design_archive WHERE Image_Tags REGEXP '^.*"+keyword+".*$' AND Design_ID>0",(err,imgs)=>{
+            if(err) throw(err);
+            callback(imgs);
+        });
+    },
     addApointments: function(body,id,callback){
         if(body.imglink==""&&body.imgarc==undefined){
             connection.query("INSERT INTO appointment(Client_id,Date_Created,Appointment_Date,Image_Submission,Image_Archive_ID,purpose,Status) VALUES("+id+",CURDATE(),'"+body.date+"','N/A',0,'"+body.purpose+"','Pending')",(err,res)=>{
@@ -65,6 +77,12 @@ module.exports = {
             callback();
         })
     },
+    addProject: function(body,callback){
+        connection.query("INSERT INTO project_records(Client_ID, Design_ID, Artist_ID, Status, Color, Size, Date_Started, Date_Finished) VALUES()",(err,res)=>{
+            if(err) throw(err);
+            callback();
+        })
+    },
     getArtist: function(callback){
         connection.query("SELECT * FROM artist",(err,artist)=>{
             if(err) throw(err);
@@ -77,6 +95,12 @@ module.exports = {
             callback(client);
         })
     },
+    getDesign: function(callback){
+        connection.query("SELECT * FROM design_archive",(err,design)=>{
+            if(err) throw(err);
+            callback(design);
+        })
+    },
     getSessions: function(callback){
         connection.query("SELECT tattoo_session.Session_Number AS session_num, tattoo_session.Session_Date AS session_date, tattoo_session.Time_Started AS session_start, tattoo_session.Time_Finised AS session_end, (client.First_Name + client.Last_Name) AS client_name, project_records.Project_Number, (artist.First_Name + artist.Last_Name) AS artist_name FROM tattoo_session INNER JOIN project_records ON tattoo_session.Project_Number=project_records.Project_Number INNER JOIN client ON project_records.Client_ID=client.Client_ID INNER JOIN artist ON project_records.Artist_ID=artist.Artist_ID",(err,session)=>{
             if(err) throw(err);
@@ -87,6 +111,12 @@ module.exports = {
         connection.query("SELECT payment.Receipt_ID AS receipt_id, payment.Payment_ID AS payment_id, design_archive.Design_ID as design_id, project_records.Project_Number AS project_number, (client.First_Name + client.Last_Name) AS client_name, tattoo_session.Session_Number AS session_number, SUM(payment.Amount) AS total_payment FROM payment INNER JOIN client ON payment.Client_ID=client.Client_ID INNER JOIN tattoo_session ON payment.Session_Number=tattoo_session.Session_Number INNER JOIN project_records ON tattoo_session.Project_Number=project_records.Project_Number INNER JOIN design_archive ON project_records.Design_ID=design_archive.Design_ID GROUP BY project_records.Project_Number; SELECT payment.Receipt_ID AS receipt_id, project_records.Project_Number AS project_number, tattoo_session.Session_Number AS session_number, tattoo_session.Time_Started AS session_start, tattoo_session.Time_Finised AS session_end, tattoo_session.Session_Date AS session_date, payment.Amount AS session_payment FROM payment INNER JOIN tattoo_session ON payment.Session_Number=tattoo_session.Session_Number INNER JOIN project_records ON tattoo_session.Project_Number=project_records.Project_Number GROUP BY project_records.Project_Number",(err,transaction)=>{
             if(err) throw(err);
             callback(transaction);
+        })
+    },
+    getProjects: function(callback){
+        connection.query("SELECT project_records.Project_Number, (artist.First_Name+artist.Last_Name) AS artist_name, (client.First_Name+client.Last_Name) AS client_name, project_records.Color, project_records.Date_Started, project_records.Date_Finished, design_archive.Design_Name, project_records.Size, project_records.Status FROM project_records INNER JOIN artist ON project_records.Artist_ID=artist.Artist_ID INNER JOIN client ON project_records.Client_ID=client.Client_ID INNER JOIN design_archive ON project_records.Design_ID=design_archive.Design_ID GROUP BY project_records.Project_Number", (err,project)=>{
+            if(err) throw(err);
+            callback(project);
         })
     },
     getDashboard: function(callback){
