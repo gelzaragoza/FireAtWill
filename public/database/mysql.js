@@ -3,7 +3,7 @@ const connection = mysql.createConnection({
     host: "127.0.0.1",
     user: "root",
     password: "",
-    database: "newtattoo_db",
+    database: "tattoo_db",
     multipleStatements: true
 });
 connection.connect((err)=>{
@@ -59,8 +59,11 @@ module.exports = {
             callback(app);
         });
     },
-    addSession: function(){
-
+    addSession: function(body,callback){
+        connection.query("INSERT INTO tattoo_session(Project_Number, Time_Started, Time_Finished, Session_Date, Total_Hours) VALUES("+body.projectNumber+", "+body.timeStart+", "+body.timeEnd+", "+body.date+", TO_CHAR(TIME '"+body.timeStart+" - "+body.timeEnd+"', 'HH.MM'))", (err,newsession)=>{
+            if(err) throw(err);
+            callback(newsession);
+        })
     },
     loginClient: function(contact,callback){
         connection.query("SELECT * FROM client WHERE Contact_Number='"+contact+"'",(err,client)=>{
@@ -120,13 +123,13 @@ module.exports = {
         })
     },
     getProjects: function(callback){
-        connection.query("SELECT project_records.Project_Number, (artist.First_Name+artist.Last_Name) AS artist_name, (client.First_Name+client.Last_Name) AS client_name, project_records.Color, project_records.Date_Started, project_records.Date_Finished, design_archive.Design_Name, project_records.Size, project_records.Status FROM project_records INNER JOIN artist ON project_records.Artist_ID=artist.Artist_ID INNER JOIN client ON project_records.Client_ID=client.Client_ID INNER JOIN design_archive ON project_records.Design_ID=design_archive.Design_ID GROUP BY project_records.Project_Number", (err,project)=>{
+        connection.query("SELECT project_records.Project_Number, artist.First_Name AS artist_FN, artist.Last_Name AS artist_LN, client.First_Name AS client_FN, client.Last_Name AS client_LN, project_records.Color, project_records.Date_Started, project_records.Date_Finished, design_archive.Design_Name, project_records.Size, project_records.Status FROM project_records INNER JOIN artist ON project_records.Artist_ID=artist.Artist_ID INNER JOIN client ON project_records.Client_ID=client.Client_ID INNER JOIN design_archive ON project_records.Design_ID=design_archive.Design_ID GROUP BY project_records.Project_Number", (err,project)=>{
             if(err) throw(err);
             callback(project);
         })
     },
     getDashboard: function(callback){
-        connection.query("SELECT * FROM appointment WHERE Status='Pending'; SELECT * FROM appointment WHERE Appointment_Date=CURDATE(); SELECT * FROM project_records WHERE Status='Ongoing'",(err, dashboard)=>{
+        connection.query("SELECT * FROM appointment WHERE Status='Pending' OR Status='Approved'; SELECT * FROM appointment WHERE Appointment_Date=CURDATE(); SELECT * FROM project_records WHERE Status='Ongoing'; SELECT * FROM client",(err, dashboard)=>{
             if(err) throw(err);
             callback(dashboard);
         })
