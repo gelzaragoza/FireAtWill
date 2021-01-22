@@ -4,7 +4,9 @@ const mysql = require("../database/mysql.js");
 
 router.get("/",(req,res)=>{
     if(req.session.type){
-        res.render("landing/gallery",{type:req.session.type});
+        mysql.getGallery((imgs)=>{
+            res.render("landing/gallery",{type:req.session.type,images:imgs});
+        });
     }else{
         mysql.getGallery((imgs)=>{
             res.render("landing/gallery",{type:"guest",images:imgs});

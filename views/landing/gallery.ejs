@@ -76,6 +76,18 @@ crossorigin="anonymous"></script>
             }
         });
     });
+    $("#usersearch").on("keydown",()=>{
+        $.ajax({
+            method:"POST",
+            url:"/gallery?keyword="+$("#usersearch").val()
+        }).done((data,status)=>{
+            if(status=="success"){
+                if(data!=""){
+                    gallerysnippet(data);
+                }
+            }
+        });
+    });
 </script>
 </body>
 </html>
