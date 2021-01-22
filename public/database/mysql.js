@@ -11,6 +11,18 @@ connection.connect((err)=>{
     console.log("Database Connected");
 })
 module.exports = {
+    getGallery: function(callback){
+        connection.query("SELECT * FROM design_archive WHERE Design_ID>0",(err,imgs)=>{
+            if(err) throw(err);
+            callback(imgs);
+        });
+    },
+    searchGallery: function(keyword,callback){
+        connection.query("SELECT * FROM design_archive WHERE Image_Tags REGEXP '^.*"+keyword+".*$' AND Design_ID>0",(err,imgs)=>{
+            if(err) throw(err);
+            callback(imgs);
+        });
+    },
     addApointments: function(body,id,callback){
         if(body.imglink==""&&body.imgarc==undefined){
             connection.query("INSERT INTO appointment(Client_id,Date_Created,Appointment_Date,Image_Submission,Image_Archive_ID,purpose,Status) VALUES("+id+",CURDATE(),'"+body.date+"','N/A',0,'"+body.purpose+"','Pending')",(err,res)=>{
