@@ -17,7 +17,7 @@
                     </div>
                     <div class="card-body">
                     <%apps.forEach((app)=>{%>
-                        <%if(app.Status=="Approved"){%>
+                        <%if(app.Status=="Approved"||app.Status=="Rejected"){%>
                             <%check++%>
                         <%}%>
                     <%})%>
@@ -27,7 +27,7 @@
                         </div>
                     <%}%>
                     <%apps.forEach((app)=>{%>
-                        <%if(app.Status=="Approved"){%>
+                        <%if(app.Status=="Approved"||app.Status=="Rejected"){%>
                             <div class="card border border-primary mb-4">
                                 <div class="card-header h6 text-primary">
                                     Appointment Application

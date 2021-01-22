@@ -15,9 +15,9 @@ CREATE TABLE Artist(
 
 CREATE TABLE Design_Archive(
     Design_ID int NOT NULL AUTO_INCREMENT,
-    Design_Name VARCHAR(20) NOT NULL,
-    Image_Link varchar(30) NOT NULL,
-    Image_Tags varchar(20) NOT NULL,
+    Design_Name VARCHAR(255) NOT NULL,
+    Image_Link varchar(255) NOT NULL,
+    Image_Tags varchar(255) NOT NULL,
     Image_Desc varchar(255) NOT NULL,
     CONSTRAINT Design_ID_PK_DA PRIMARY KEY(Design_ID)
 );
@@ -100,5 +100,7 @@ CREATE TABLE Appointment(
 
 INSERT INTO Design_Archive(Design_Name,Image_Link,Image_Tags,Image_Desc) VALUES('Dummy','Dummy','Dummy','Dummy');
 UPDATE Design_Archive SET Design_ID=0 WHERE Design_ID=1;
-INSERT INTO Design_Archive(Design_Name,Image_Link,Image_Tags,Image_Desc) VALUES('Tribal','https://www.askideas.com/media/73/Cool-Tribal-Tattoo-Design.jpg','Cool Awesome Savage','Basic design for starters');
+INSERT INTO Design_Archive(Design_Name,Image_Link,Image_Tags,Image_Desc) VALUES('Tribal','https://www.askideas.com/media/73/Cool-Tribal-Tattoo-Design.jpg','Tribal Cool Awesome Savage','Basic design for starters');
+INSERT INTO Design_Archive(Design_Name,Image_Link,Image_Tags,Image_Desc) VALUES('Dragon','https://images-na.ssl-images-amazon.com/images/I/712Z7RdR1SL.jpg','Dragon Fiction Powerful Legend','A Cool Dragon');
+INSERT INTO Design_Archive(Design_Name,Image_Link,Image_Tags,Image_Desc) VALUES('Traditional','https://i.pinimg.com/originals/61/d1/92/61d19232ae720c0e7673f898118a0114.jpg','Traditional Mask Legend Japanese','Japanese Traditional Design');
 INSERT INTO admin_accounts(First_Name,Last_Name,username,admin_pass) VALUES('Admin','Account','admin','admin');
