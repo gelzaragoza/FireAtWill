@@ -20,13 +20,13 @@
         
         <div class="card">
             <%if(sessions.length==0){%>
-                <div class="card" style="background-color: bisque;">
-                    <div class="card-body text-center">You have no recorded sessions</div>
+                <div class="alert alert-info">
+                    You have no recorded sessions
                 </div>
             <%}%>
-        </div>
-         <br>
-        <div class="card">
+            <div style="float: right;">
+                <button class="btn btn-success btn-sm" data-mdb-toggle="modal" data-mdb-target="#session"><i class="fa fa-plus"></i> Add Session</button>
+            </div>
             <table class="table table-sm table-hover align-middle">
                 <thead class="table-light">
                   <tr>
@@ -38,50 +38,105 @@
                   </tr>
                 </thead>
                 <tbody>
-                <%if(sessions.length>0){%>        
-                    <%sessions.forEach((session)=>{%>
-                    <tr>
-                        <th scope="row"><%=session.session_num%></th>
-                        <td class="text-center"><%=session.client_name%></td>
-                        <td class="text-center"><%=session.artist_name%></td>
-                        <td class="text-center"><%=session.session_date%></td>
-                        <td class="text-center">
-                            <!-- Button trigger modal -->
-                            <button type="button" class="btn btn-primary btn-floating" data-mdb-toggle="modal" data-mdb-target="#sessionDetails">
-                                <i class="fas fa-info"></i>
-                            </button>
-                        </td>
-                    </tr>
-
-                    <!-- Modal -->
-                    <div class="modal fade" id="sessionDetails" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-                        <div class="modal-dialog">
-                            <div class="modal-content">
-                                <div class="modal-header">
-                                <h5 class="modal-title" id="exampleModalLabel">Session Details</h5>
-                                <button type="button" class="btn-close" data-mdb-dismiss="modal" aria-label="Close"></button>
-                                </div>
-                                <div class="modal-body">
-                                    Time Started: <%= session.session_start %> <br>
-                                    <% if(session.session_end==NULL){%>
-                                        <button type="button" class="btn btn-warning">End Session</button>
-                                    <%}else{%>
-                                    Time Ended: <%= session.session_end %>
-                                    <%}%>
-
-                                </div>
-                                <div class="modal-footer">
-                                <button type="button" class="btn btn-secondary" data-mdb-dismiss="modal">
-                                    Close
+                <%if(source.Project_id==sessions.Project_Number){%>
+                    <%if(sessions.length>0){%>        
+                        <%sessions.forEach((session)=>{%>
+                        <tr>
+                            <th scope="row"><%=session.session_num%></th>
+                            <td class="text-center"><%=session.client_name%></td>
+                            <td class="text-center"><%=session.artist_name%></td>
+                            <td class="text-center"><%=session.session_date%></td>
+                            <td class="text-center">
+                                <!-- Button trigger modal -->
+                                <button type="button" class="btn btn-primary btn-floating" data-mdb-toggle="modal" data-mdb-target="#sessionDetails">
+                                    <i class="fas fa-info"></i>
                                 </button>
+                            </td>
+                        </tr>
+
+                        <!-- Modal -->
+                        <div class="modal fade" id="sessionDetails" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                            <div class="modal-dialog">
+                                <div class="modal-content">
+                                    <div class="modal-header">
+                                    <h5 class="modal-title" id="exampleModalLabel">Session Details</h5>
+                                    <button type="button" class="btn-close" data-mdb-dismiss="modal" aria-label="Close"></button>
+                                    </div>
+                                    <div class="modal-body">
+                                        Time Started: <%= session.session_start %> <br>
+                                        <% if(session.session_end==NULL){%>
+                                            <button type="button" class="btn btn-warning">End Session</button>
+                                        <%}else{%>
+                                        Time Ended: <%= session.session_end %>
+                                        <%}%>
+
+                                    </div>
+                                    <div class="modal-footer">
+                                    <button type="button" class="btn btn-secondary" data-mdb-dismiss="modal">
+                                        Close
+                                    </button>
+                                    </div>
                                 </div>
                             </div>
                         </div>
-                    </div>
-                    <%})%>
+                        <%})%>
+                    <%}%>
                 <%}%>
                 </tbody>
             </table>
+        </div>
+    </div>
+
+    <!-- Modal -->
+    <div
+    class="modal fade"
+    id="session"
+    tabindex="-1"
+    aria-labelledby="exampleModalLabel"
+    aria-hidden="true"
+    >
+        <div class="modal-dialog">
+            <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">New Session for <%=source.Client_name%></h5>
+                <button
+                type="button"
+                class="btn-close"
+                data-mdb-dismiss="modal"
+                aria-label="Close"
+                ></button>
+            </div>
+            <form action="/admin/newsession" method="POST">
+            <div class="modal-body">
+                <div class="row">
+                    <div class="col-md-12">
+                        <div class="input-group flex-nowrap mb-4">
+                            <span class="input-group-text" id="addon-wrapping">Project <%=source.Project_id%></span>
+                            <input type="text" name="projectNumber" class="form-control" value="<%=source.Project_id%>" hidden>
+                        </div>
+                        <div class="input-group flex-nowrap mb-4">
+                            <span class="input-group-text" id="addon-wrapping">Time Start</span>
+                            <input type="time" name="timeStart" class="form-control" required>
+                        </div>
+                        <div class="input-group flex-nowrap mb-4">
+                            <span class="input-group-text" id="addon-wrapping">Time End</span>
+                            <input type="time" name="timeEnd" class="form-control" required>
+                        </div>
+                        <div class="input-group flex-nowrap mb-4">
+                            <span class="input-group-text" id="addon-wrapping">Date</span>
+                            <input type="date" name="date" class="form-control" required>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-mdb-dismiss="modal">
+                Close
+                </button>
+                <button type="submit" class="btn btn-success"><i class="fa fa-plus"></i> Add</button>
+            </div>
+            </form>
+            </div>
         </div>
     </div>
 
