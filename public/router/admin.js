@@ -2,8 +2,6 @@ const express = require("express");
 const router = express.Router();
 const mysql = require("../database/mysql.js")
 
-
-
 router.get("/",(req,res)=>{
     mysql.getDashboard((dashboard)=>{
        res.render("admin/dashboard", {appCount:dashboard[0],appCur:dashboard[1],onProj:dashboard[2]}
@@ -32,12 +30,30 @@ router.get("/client",(req,res)=>{
     })
 })
 
+router.post("/client",(req,res)=>{
+    console.log(req.body)
+    mysql.addClient(req.body,()=>{
+        res.redirect("/admin/client")
+    })
+})
+
 router.get("/adminlogin",(req,res)=>{
     res.render("admin/adminlogin")
 })
 
 router.get("/adminregistration",(req,res)=>{
     res.render("admin/adminregistration")
+})
+
+router.post("/adminregistration", (req,res)=>{
+    console.log(req.body)
+    mysql.adminRegistration(req.body,(retVal)=>{    
+        if (retVal == 1) {
+            res.redirect("/admin/registration")
+        } else {
+            res.redirect("/admin")
+        }
+    })
 })
 
 router.get("/appointments",(req,res)=>{
@@ -47,12 +63,6 @@ router.get("/appointments",(req,res)=>{
     })
 });
 
-router.post("/client",(req,res)=>{
-    console.log(req.body)
-    mysql.addClient(req.body,()=>{
-        res.redirect("/admin/client")
-    })
-})
 
 router.get("/project_records",(req,res)=>{
     // res.render("admin/project_records");
