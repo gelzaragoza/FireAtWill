@@ -1,6 +1,7 @@
 const express = require("express");
 const router = express.Router();
 const mysql = require("../database/mysql.js")
+const mid = require("../controller/middleware.js");
 
 router.get("/",(req,res)=>{
     mysql.getDashboard((dashboard)=>{
@@ -37,9 +38,6 @@ router.post("/client",(req,res)=>{
     })
 })
 
-router.get("/adminlogin",(req,res)=>{
-    res.render("admin/adminlogin")
-})
 
 router.get("/adminregistration",(req,res)=>{
     res.render("admin/adminregistration")
