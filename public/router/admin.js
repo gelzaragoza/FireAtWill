@@ -55,10 +55,12 @@ router.post("/adminregistration", (req,res)=>{
 })
 
 router.get("/appointments",(req,res)=>{
-    mysql.getAllAppointments((app)=>{
-        let months = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"];
-        res.render("admin/appointments",{apps:app,months:months});
-    })
+    mysql.getClient((clients)=>{
+        mysql.getAllAppointments((app)=>{
+            let months = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"];
+            res.render("admin/appointments",{apps:app,months:months,clients:clients});
+        })
+    });
 });
 
 
