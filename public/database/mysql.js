@@ -3,16 +3,27 @@ const connection = mysql.createConnection({
     host: "127.0.0.1",
     user: "root",
     password: "",
-    database: "newtattoo_db",
+    database: "tattoo_db",
     multipleStatements: true
 });
+
+const bcrypt = require('bcrypt');
+const saltRounds = 10;
+const password = 's0/\/\P4$$w0rD';
+const someOtherPlaintextPassword = 'not_bacon';
+
+
 connection.connect((err)=>{
     if(err) throw (err);
     console.log("Database Connected");
 })
+
 module.exports = {
     previewImage: function(id,callback){
-
+        connection.query("SELECT * FROM design_archive WHERE Design_ID="+id,(err,img)=>{
+            if(err) throw(err);
+            callback(img);
+        })
     },
     getGallery: function(callback){
         connection.query("SELECT * FROM design_archive WHERE Design_ID>0",(err,imgs)=>{
@@ -27,7 +38,7 @@ module.exports = {
         });
     },
     addApointments: function(body,id,callback){
-        if(body.imglink==""&&body.imgarc==0){
+        if(body.imglink==""&& parseInt(body.imgarc)==0 || body.imgarc==undefined){
             connection.query("INSERT INTO appointment(Client_id,Date_Created,Appointment_Date,Image_Submission,Image_Archive_ID,purpose,Status) VALUES("+id+",CURDATE(),'"+body.date+"','N/A',0,'"+body.purpose+"','Pending')",(err,res)=>{
                 if(err) throw(err);
                 callback();
@@ -38,7 +49,7 @@ module.exports = {
                 callback();
             })
         }else{
-            connection.query("INSERT INTO appointment(Client_id,Date_Created,Appointment_Date,Image_Submission,Image_Archive_ID,purpose,Status) VALUES("+id+",CURDATE(),'"+body.date+"','N/A',1,'"+body.purpose+"','Pending')",(err,res)=>{
+            connection.query("INSERT INTO appointment(Client_id,Date_Created,Appointment_Date,Image_Submission,Image_Archive_ID,purpose,Status) VALUES("+id+",CURDATE(),'"+body.date+"','N/A','"+body.imgarc+"','"+body.purpose+"','Pending')",(err,res)=>{
                 if(err) throw(err);
                 callback();
             })
@@ -132,9 +143,41 @@ module.exports = {
         })
     },
     getDashboard: function(callback){
-        connection.query("SELECT * FROM appointment WHERE Status='Pending'; SELECT * FROM appointment WHERE Appointment_Date=CURDATE(); SELECT * FROM project_records WHERE Status='Ongoing'",(err, dashboard)=>{
+        connection.query("SELECT * FROM appointment WHERE Status='Pending' OR Status='Approved'; SELECT * FROM appointment WHERE Appointment_Date=CURDATE(); SELECT * FROM project_records WHERE Status='Ongoing'; SELECT * FROM client",(err, dashboard)=>{
             if(err) throw(err);
             callback(dashboard);
+        })
+    },
+    adminRegistration: function(body, callback){
+        connection.query("SELECT * FROM admin_accounts",(err,admin_accounts)=>{
+            if(err) throw(err);
+
+            // bcrypt.hash(password, saltRounds, function(err, hash) {
+            //     connection.query('INSERT INTO admin_accounts (First_Name, Last_Name, username, admin_pass) VALUES (?, ?, ?, ?)', [First_Name, Last_Name, username, admin_pass],
+            //     function(err, results, fields)  {
+            //         if(err) throw err;
+            //     })
+            // })
+
+            var check = 0
+
+            admin_accounts.forEach((accounts)=>{
+                if (accounts.username == body.username) {
+                    check = 1
+                }
+            })
+
+            if (check = 1) {
+                callback(check)
+            } else {
+                bcrypt.hash(password, saltRounds, function(err, hash) {
+                    connection.query("INSERT INTO admin_accounts (First_Name, Last_Name, username, admin_pass) VALUES(?, ?, ?, ?)", (err, res)=>{
+                        // if(err) throw(err)
+                    })
+                })
+            }
+
+            callback(admin_accounts);
         })
     }
 }

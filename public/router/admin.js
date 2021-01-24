@@ -1,12 +1,11 @@
 const express = require("express");
 const router = express.Router();
 const mysql = require("../database/mysql.js")
-
-
+const mid = require("../controller/middleware.js");
 
 router.get("/",(req,res)=>{
     mysql.getDashboard((dashboard)=>{
-       res.render("admin/dashboard", {appCount:dashboard[0],appCur:dashboard[1],onProj:dashboard[2]}
+       res.render("admin/dashboard", {appCount:dashboard[0],appCur:dashboard[1],onProj:dashboard[2],clients:dashboard[3]}
        );      
     })
 })
@@ -32,27 +31,38 @@ router.get("/client",(req,res)=>{
     })
 })
 
-router.get("/adminlogin",(req,res)=>{
-    res.render("admin/adminlogin")
-})
-
-router.get("/adminregistration",(req,res)=>{
-    res.render("admin/adminregistration")
-})
-
-router.get("/appointments",(req,res)=>{
-    mysql.getAllAppointments((app)=>{
-        let months = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"];
-        res.render("admin/appointments",{apps:app,months:months});
-    })
-});
-
 router.post("/client",(req,res)=>{
     console.log(req.body)
     mysql.addClient(req.body,()=>{
         res.redirect("/admin/client")
     })
 })
+
+
+router.get("/adminregistration",(req,res)=>{
+    res.render("admin/adminregistration")
+})
+
+router.post("/adminregistration", (req,res)=>{
+    console.log(req.body)
+    mysql.adminRegistration(req.body,(retVal)=>{    
+        if (retVal == 1) {
+            res.redirect("/admin/registration")
+        } else {
+            res.redirect("/admin")
+        }
+    })
+})
+
+router.get("/appointments",(req,res)=>{
+    mysql.getClient((clients)=>{
+        mysql.getAllAppointments((app)=>{
+            let months = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"];
+            res.render("admin/appointments",{apps:app,months:months,clients:clients});
+        })
+    });
+});
+
 
 router.get("/project_records",(req,res)=>{
     // res.render("admin/project_records");
