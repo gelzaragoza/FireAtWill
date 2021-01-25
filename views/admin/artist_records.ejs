@@ -32,6 +32,7 @@
                             <th class="text-center" scope="col">Contact Number</th>
                             <th class="text-center" scope="col">Address</th>
                             <th class="text-center" scope="col">Rates</th>
+                            <th class="text-center" scope="col">Action</th>
                           </tr>
                         </thead>
                         <tbody>
@@ -43,10 +44,8 @@
                                 <td class="text-center"><%=artist.City%> <%=artist.Street%> <%=artist.Address%></td>
                                 <td class="text-center"><%=artist.Rate%></td>
                                 <td class="text-center">
-                                    <!-- Delete -->
-                                    <button type="button" class="btn btn-danger btn-floating" data-mdb-ripple-color="dark"><i class="fas fa-user-minus"></i></button>
                                     <!-- Update -->
-                                    <button type="button" class="btn btn-success btn-floating" data-mdb-ripple-color="dark" data-mdb-toggle="modal" data-mdb-target="#appointment"><i class="fas fa-user-edit"></i></button>
+                                    <button type="button" class="btn btn-success btn-floating" data-mdb-ripple-color="dark" data-mdb-toggle="modal" data-mdb-target="#artist<%=artist.Artist_ID%>"><i class="fas fa-user-edit"></i></button>
                                 </td>
                               </tr>
                           <%})%>
@@ -129,6 +128,85 @@
             </div>
         </div>
     </div>
+
+    <%artists.forEach((artist)=>{%>
+
+      <!-- Update Modal -->
+      <div
+      class="modal fade"
+      id="artist<%=artist.Artist_ID%>"
+      tabindex="-1"
+      aria-labelledby="exampleModalLabel"
+      aria-hidden="true"
+      >
+          <div class="modal-dialog">
+              <div class="modal-content">
+              <div class="modal-header">
+                  <h5 class="modal-title" id="exampleModalLabel">Artist <%=artist.Artist_ID%> Update Information</h5>
+                  <button
+                  type="button"
+                  class="btn-close"
+                  data-mdb-dismiss="modal"
+                  aria-label="Close"
+                  ></button>
+              </div>
+              <div class="modal-body">
+                  <div class="row">
+                      <div class="col-md-12">
+                        <form action="/admin/artistupdate?id=<%=artist.Artist_ID%>" method="POST">
+                          <!-- First Name input -->
+                          <div class="form-outline mb-4">
+                            <input type="text" id="form5Example2" class="form-control" name="firstname" value="<%=artist.First_Name%>"/>
+                            <label class="form-label" for="form5Example1">First Name</label>
+                          </div>
+                          <!-- Client's Last Name -->
+                          <div class="form-outline mb-4">
+                            <input type="text" id="form5Example1" class="form-control" name="lastname" value="<%=artist.Last_Name%>"/>
+                            <label class="form-label" for="form5Example1">Last Name</label>
+                          </div>
+                          <!-- Contact Number -->
+                          <div class="form-outline mb-4">
+                            <input type="text" id="form5Example3" class="form-control" name="contactnumber" value="<%=artist.Contact_Number%>"/>
+                            <label class="form-label" for="form5Example1">Contact Number</label>
+                          </div>
+                          <!-- City -->
+                          <div class="form-outline mb-4">
+                            <input type="text" id="form5Example4" class="form-control" name="city" value="<%=artist.City%>"/>
+                            <label class="form-label" for="form5Example1">City</label>
+                          </div>
+                          <!-- Address -->
+                          <div class="form-outline mb-4">
+                            <input type="text" id="form5Example4" class="form-control" name="street" value="<%=artist.Street%>"/>
+                            <label class="form-label" for="form5Example1">Street</label>
+                          </div>
+                          <!-- Address -->
+                          <div class="form-outline mb-4">
+                            <input type="text" id="form5Example4" class="form-control" name="address" value="<%=artist.Address%>"/>
+                            <label class="form-label" for="form5Example1">Address</label>
+                          </div>
+                          <!-- Remarks -->
+                          <div class="form-outline mb-4">
+                            <input type="text" id="form5Example5" class="form-control" name="rates" value="<%=artist.Rates%>"/>
+                            <label class="form-label" for="form5Example1">Rates</label>
+                          </div>
+  
+                          <!-- Submit button -->
+                            <button type="submit" class="btn btn-primary btn-block">Update</button>
+                          </form>
+                      </div>
+                  </div>
+              </div>
+              <div class="modal-footer">
+                  <button type="button" class="btn btn-secondary" data-mdb-dismiss="modal">
+                  Close
+                  </button>
+              </div>
+              </div>
+          </div>
+      </div> 
+  
+      <%})%>
+
     <%-include('../css_js/login_js')%>
 </body>
 </html>

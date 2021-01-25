@@ -3,14 +3,14 @@ const connection = mysql.createConnection({
     host: "127.0.0.1",
     user: "root",
     password: "",
-    database: "newtattoo_db",
+    database: "tattoo_db",
     multipleStatements: true
 });
 
 const bcrypt = require('bcrypt');
 const saltRounds = 10;
-const password = 's0/\/\P4$$w0rD';
-const someOtherPlaintextPassword = 'not_bacon';
+// const password = 'password123';
+// const someOtherPlaintextPassword = 'asdfqwerty';
 
 
 connection.connect((err)=>{
@@ -62,7 +62,7 @@ module.exports = {
         }
     },
     getAppointments: function(id,callback){
-        connection.query("SELECT * FROM appointment WHERE Client_ID="+id,(err,app)=>{
+        connection.query("SELECT * FROM appointment WHERE Client_ID='"+id+"'",(err,app)=>{
             if(err) throw(err);
             callback(app);
         });
@@ -118,6 +118,18 @@ module.exports = {
             callback(client);
         })
     },
+    updateClient: function(body, ID, callback){
+        connection.query("UPDATE `client` SET `First_Name`='"+body.firstname+"',`Last_Name`='"+body.lastname+"',`Contact_Number`='"+body.contactnumber+"',`City`='"+body.city+"',`Street`='"+body.street+"',`Address`='"+body.address+"',`Remarks`='"+body.remarks+"' WHERE Client_ID=" +ID, (err, client)=>{
+            if(err) throw (err)
+            callback()
+        })
+    },
+    updateArtist: function(body, ID, callback){
+        connection.query("UPDATE `artist` SET `First_Name`='"+body.firstname+"',`Last_Name`='"+body.lastname+"',`Contact_Number`='"+body.contactnumber+"',`City`='"+body.city+"',`Street`='"+body.street+"',`Address`='"+body.address+"',`Rate`='"+body.rates+"' WHERE Artist_ID=" +ID, (err, artist)=>{
+            if(err) throw (err)
+            callback()
+        })
+    },
     getDesign: function(callback){
         connection.query("SELECT * FROM design_archive",(err,design)=>{
             if(err) throw(err);
@@ -155,35 +167,35 @@ module.exports = {
         })
     },
     adminRegistration: function(body, callback){
-        connection.query("SELECT * FROM admin_accounts",(err,admin_accounts)=>{
-            if(err) throw(err);
+        // connection.query("INSERT INTO admin_accounts(First_Name, Last_Name, username, admin_pass) VALUES('"+body.firstname+"', '"+body.lastname+"', '"+body.username+"', '"+body.password+"')", (err,admin_accounts)=>{
+        //     if(err) throw(err);
+        //     callback();
 
-            // bcrypt.hash(password, saltRounds, function(err, hash) {
-            //     connection.query('INSERT INTO admin_accounts (First_Name, Last_Name, username, admin_pass) VALUES (?, ?, ?, ?)', [First_Name, Last_Name, username, admin_pass],
-            //     function(err, results, fields)  {
-            //         if(err) throw err;
-            //     })
+            // admin_accounts.find({ 'username': username }, function(err,adminacc) {
+            //     if (err) {
+            //         console.log('Error');
+            //         return done(err);
+            //     }
+
+            //     //if user found
+            //     if(adminacc.length!=0) {
+            //         if(adminacc[0].username) {
+            //             console.log('Username already exists, username: ' + username);
+            //         } 
+            //         var err = new Error();
+            //         err.status = 310;
+            //         return done(err);
+            //     }
             // })
-
-            var check = 0
-
-            admin_accounts.forEach((accounts)=>{
-                if (accounts.username == body.username) {
-                    check = 1
-                }
-            })
-
-            if (check = 1) {
-                callback(check)
-            } else {
-                bcrypt.hash(password, saltRounds, function(err, hash) {
-                    connection.query("INSERT INTO admin_accounts (First_Name, Last_Name, username, admin_pass) VALUES(?, ?, ?, ?)", (err, res)=>{
-                        // if(err) throw(err)
-                    })
-                })
-            }
-
-            callback(admin_accounts);
+        // })
+        let salt = bcrypt.genSaltSync(saltRounds);
+        let hash = bcrypt.hashSync(body.password, salt)
+        console.log("ASDFA")
+        console.log(body.password)
+        connection.query("INSERT INTO admin_accounts (First_Name, Last_Name, username, admin_pass) VALUES('"+body.firstname+"', '"+body.lastname+"', '"+body.username+"', '"+hash+"')", (err, res)=>{
+            if (err) throw err;
+            // res.send("nice");
+            callback()
         })
     }
 }
