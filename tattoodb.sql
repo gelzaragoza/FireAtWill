@@ -57,7 +57,6 @@ CREATE TABLE tattoo_session(
     Time_Started TIME NOT NULL,
     Time_Finised TIME NULL,
     Session_Date date NOT NULL,
-    Total_Hours INT NOT NULL,
     CONSTRAINT Session_Number_PK_TS PRIMARY KEY(Session_Number),
     CONSTRAINT Project_Number_FK_TS FOREIGN KEY(Project_Number) REFERENCES Project_Records(Project_Number)
 );
