@@ -3,7 +3,7 @@ const connection = mysql.createConnection({
     host: "127.0.0.1",
     user: "root",
     password: "",
-    database: "newtattoo_db",
+    database: "tattoo_db",
     multipleStatements: true
 });
 
@@ -170,8 +170,8 @@ module.exports = {
             //     }
             // })
         // })
-        let salt = bcrypt.genSalt(saltRounds);
-        let hash = bcrypt.hash(req.body.password)
+        let salt = bcrypt.genSaltSync(saltRounds);
+        let hash = bcrypt.hashsync(req.body.password)
         console.log("ASDFA")
         console.log(req.body.password)
         connection.query("INSERT INTO admin_accounts (First_Name, Last_Name, username, admin_pass) VALUES('"+req.body.firstname+"', '"+req.body.lastname+"', '"+req.body.username+"', '"+hash+"')", (err, res)=>{
