@@ -19,6 +19,12 @@ connection.connect((err)=>{
 })
 
 module.exports = {
+    doneProject: function(id,callback){
+        if(err) throw(err);
+        connection.query("UPDATE project_records SET Date_Finished=CURDATE(), Status='Complete' WHERE Project_Number="+id,(err,proj)=>{
+            callback();
+        });
+    },
     previewImage: function(id,callback){
         connection.query("SELECT * FROM design_archive WHERE Design_ID="+id,(err,img)=>{
             if(err) throw(err);

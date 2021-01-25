@@ -55,12 +55,14 @@ router.post("/adminregistration", (req,res)=>{
 })
 
 router.get("/appointments",(req,res)=>{
-    mysql.getClient((clients)=>{
-        mysql.getAllAppointments((app)=>{
-            let months = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"];
-            res.render("admin/appointments",{apps:app,months:months,clients:clients});
-        })
-    });
+    mysql.getGallery((img)=>{
+        mysql.getClient((clients)=>{
+            mysql.getAllAppointments((app)=>{
+                let months = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"];
+                res.render("admin/appointments",{apps:app,months:months,clients:clients,images:img});
+            })
+        });
+    })
 });
 
 
@@ -124,5 +126,10 @@ router.post("/preview",(req,res)=>{
     }
 });
 
+router.post("/projdone",(req,res)=>{
+    mysql.doneProject(parseInt(req.query.id),()=>{
+        res.redirect("/admin/project_records");
+    });
+});
 
 module.exports= router;
