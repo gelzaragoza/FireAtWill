@@ -30,6 +30,7 @@ router.post("/preview",mid.client,(req,res)=>{
 });
 
 router.post("/appointments",mid.client,(req,res)=>{
+    console.log(req.body)
     mysql.addApointments(req.body,req.session.userid,()=>{
         res.redirect("/client/appointments");
     })
