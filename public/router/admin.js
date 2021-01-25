@@ -101,8 +101,7 @@ router.get("/project_records",(req,res)=>{
     mysql.getProjects((project)=>{
         mysql.getClient((client)=>{
             mysql.getArtist((artist)=>{
-                mysql.getDesign((design)=>{
-                    console.log(design);
+                mysql.getGallery((design)=>{
                     res.render("admin/project_records", {projects:project, clients:client, artists:artist, designs:design, months:months})
                 })  
             })          
@@ -145,6 +144,16 @@ router.get("/transaction_records",(req,res)=>{
         res.render("admin/transaction_records", {transactions:transaction[0], tran_seshes:transaction[1]})
     })
 })
+
+router.post("/preview",(req,res)=>{
+    if(parseInt(req.query.id)==0){
+        res.end();
+    }else{
+        mysql.previewImage(parseInt(req.query.id),(img)=>{
+            res.render("client/imgprev",{link:img[0].Image_Link});
+        })
+    }
+});
 
 
 module.exports= router;

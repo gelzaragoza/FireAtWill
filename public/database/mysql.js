@@ -38,17 +38,17 @@ module.exports = {
         });
     },
     addApointments: function(body,id,callback){
-        if(body.imglink==""&& parseInt(body.imgarc)==0 || body.imgarc==undefined){
+        if(body.imglink==""&& body.imgarc==undefined){
             connection.query("INSERT INTO appointment(Client_id,Date_Created,Appointment_Date,Image_Submission,Image_Archive_ID,purpose,Status) VALUES("+id+",CURDATE(),'"+body.date+"','N/A',0,'"+body.purpose+"','Pending')",(err,res)=>{
                 if(err) throw(err);
                 callback();
             })
-        }else if(body.imgarc==undefined){
+        }else if(body.imglink!="" && (body.imgarc==undefined || parseInt(body.imgarc)==0)){
             connection.query("INSERT INTO appointment(Client_id,Date_Created,Appointment_Date,Image_Submission,Image_Archive_ID,purpose,Status) VALUES("+id+",CURDATE(),'"+body.date+"','"+body.imglink+"',0,'"+body.purpose+"','Pending')",(err,res)=>{
                 if(err) throw(err);
                 callback();
             })
-        }else{
+        }else if(body.imglink=="" && body.imgarc!=undefined){
             connection.query("INSERT INTO appointment(Client_id,Date_Created,Appointment_Date,Image_Submission,Image_Archive_ID,purpose,Status) VALUES("+id+",CURDATE(),'"+body.date+"','N/A','"+body.imgarc+"','"+body.purpose+"','Pending')",(err,res)=>{
                 if(err) throw(err);
                 callback();
@@ -143,7 +143,7 @@ module.exports = {
         })
     },
     getDashboard: function(callback){
-        connection.query("SELECT * FROM appointment WHERE Status='Pending' OR Status='Approved'; SELECT * FROM appointment WHERE Appointment_Date=CURDATE(); SELECT * FROM project_records WHERE Status='Ongoing'; SELECT * FROM client",(err, dashboard)=>{
+        connection.query("SELECT * FROM appointment WHERE Status='Pending' OR Status='Approved'; SELECT * FROM appointment WHERE Appointment_Date=CURDATE() AND Status='Approved'; SELECT * FROM project_records WHERE Status='Ongoing'; SELECT * FROM client",(err, dashboard)=>{
             if(err) throw(err);
             callback(dashboard);
         })

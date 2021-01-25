@@ -18,9 +18,11 @@
                         <button class="btn btn-success btn-sm" style="float: right;" data-mdb-toggle="modal" data-mdb-target="#appointment"><i class="fa fa-plus"></i> Appointment</button>
                     </div>
                     <div class="card-body">
-                      <div class="alert alert-info">
-                        You got no appointments. Check out the gallery to see what you like on your next tattoo design.
-                      </div>
+                        <%if(apps.length<0){%>
+                            <div class="alert alert-info">
+                                You got no appointments. Check out the gallery to see what you like on your next tattoo design.
+                            </div>
+                        <%}%>
                       <table class="table table-hover" id="apptable">
                           <thead>
                               <tr>
