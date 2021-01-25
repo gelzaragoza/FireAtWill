@@ -13,7 +13,9 @@
 <body style="background-color: slategray;">
     <%if(type=="guest"){%>
         <%-include('../sections/nav')%>
-    <%}else{%>
+    <%}else if(type=="admin"){%>
+        <%-include('../sections/admin_nav')%>
+    <%}else if(type=="client"){%>
         <%-include('../sections/clientnav')%>
     <%}%>
     <!-- Page Content -->

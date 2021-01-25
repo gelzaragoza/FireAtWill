@@ -1,13 +1,14 @@
 const express = require("express");
 const router = express.Router();
 const mysql = require("../database/mysql.js")
+const mid = require("../controller/middleware.js");
 
 const bcrypt = require('bcrypt');
 const saltRounds = 10;
 
 router.get("/",(req,res)=>{
     mysql.getDashboard((dashboard)=>{
-       res.render("admin/dashboard", {appCount:dashboard[0],appCur:dashboard[1],onProj:dashboard[2]}
+       res.render("admin/dashboard", {appCount:dashboard[0],appCur:dashboard[1],onProj:dashboard[2],clients:dashboard[3]}
        );      
     })
 })
@@ -40,9 +41,6 @@ router.post("/client",(req,res)=>{
     })
 })
 
-router.get("/adminlogin",(req,res)=>{
-    res.render("admin/adminlogin")
-})
 
 router.get("/adminregistration", (req,res)=>{
     res.render("admin/adminregistration")
@@ -88,37 +86,56 @@ router.post("/adminregistration", (req,res)=>{
 })  
 
 router.get("/appointments",(req,res)=>{
-    mysql.getAllAppointments((app)=>{
-        let months = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"];
-        res.render("admin/appointments",{apps:app,months:months});
-    })
+    mysql.getClient((clients)=>{
+        mysql.getAllAppointments((app)=>{
+            let months = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"];
+            res.render("admin/appointments",{apps:app,months:months,clients:clients});
+        })
+    });
 });
 
 
 router.get("/project_records",(req,res)=>{
     // res.render("admin/project_records");
+    let months = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"];
     mysql.getProjects((project)=>{
         mysql.getClient((client)=>{
             mysql.getArtist((artist)=>{
                 mysql.getDesign((design)=>{
-                    res.render("admin/project_records", {projects:project, clients:client, artists:artist, designs:design})
+                    console.log(design);
+                    res.render("admin/project_records", {projects:project, clients:client, artists:artist, designs:design, months:months})
                 })  
             })          
         })   
     })
 })
 
-router.post("/project_records",(req,res)=>{
+router.post("/newproject",(req,res)=>{
     console.log(req.body)
     mysql.addProject(req.body,()=>{
         res.redirect("/admin/project_records")
     })
 })
 
+router.post("/endProject",(req,res)=>{
+    console.log(req.body)
+    mysql.endProject(req.body,()=>{
+        res.redirect("/admin/project_records")
+    })
+})
+
 router.get("/session_records",(req,res)=>{
     // res.render("admin/session_records");
+    console.log(req.query);
     mysql.getSessions((session)=>{
-        res.render("admin/session_records", {sessions:session})
+        res.render("admin/session_records", {sessions:session, source:req.query})
+    })
+})
+
+router.post("/newsession",(req,res)=>{
+    console.log(req.body)
+    mysql.addSession(req.body,()=>{
+        res.redirect("/admin/session_records")
     })
 })
 
@@ -128,5 +145,6 @@ router.get("/transaction_records",(req,res)=>{
         res.render("admin/transaction_records", {transactions:transaction[0], tran_seshes:transaction[1]})
     })
 })
+
 
 module.exports= router;
