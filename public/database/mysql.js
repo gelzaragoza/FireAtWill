@@ -9,8 +9,8 @@ const connection = mysql.createConnection({
 
 const bcrypt = require('bcrypt');
 const saltRounds = 10;
-const password = 's0/\/\P4$$w0rD';
-const someOtherPlaintextPassword = 'not_bacon';
+// const password = 'password123';
+// const someOtherPlaintextPassword = 'asdfqwerty';
 
 
 connection.connect((err)=>{
@@ -50,7 +50,7 @@ module.exports = {
         }
     },
     getAppointments: function(id,callback){
-        connection.query("SELECT * FROM appointment WHERE Client_ID="+id,(err,app)=>{
+        connection.query("SELECT * FROM appointment WHERE Client_ID='"+id+"'",(err,app)=>{
             if(err) throw(err);
             callback(app);
         });
@@ -133,36 +133,35 @@ module.exports = {
             callback(dashboard);
         })
     },
-    adminRegistration: function(body, callback){
-        connection.query("SELECT * FROM admin_accounts",(err,admin_accounts)=>{
-            if(err) throw(err);
+    adminRegistration: function(body, req, callback){
+        // connection.query("INSERT INTO admin_accounts(First_Name, Last_Name, username, admin_pass) VALUES('"+body.firstname+"', '"+body.lastname+"', '"+body.username+"', '"+body.password+"')", (err,admin_accounts)=>{
+        //     if(err) throw(err);
+        //     callback();
 
-            // bcrypt.hash(password, saltRounds, function(err, hash) {
-            //     connection.query('INSERT INTO admin_accounts (First_Name, Last_Name, username, admin_pass) VALUES (?, ?, ?, ?)', [First_Name, Last_Name, username, admin_pass],
-            //     function(err, results, fields)  {
-            //         if(err) throw err;
-            //     })
+            // admin_accounts.find({ 'username': username }, function(err,adminacc) {
+            //     if (err) {
+            //         console.log('Error');
+            //         return done(err);
+            //     }
+
+            //     //if user found
+            //     if(adminacc.length!=0) {
+            //         if(adminacc[0].username) {
+            //             console.log('Username already exists, username: ' + username);
+            //         } 
+            //         var err = new Error();
+            //         err.status = 310;
+            //         return done(err);
+            //     }
             // })
-
-            var check = 0
-
-            admin_accounts.forEach((accounts)=>{
-                if (accounts.username == body.username) {
-                    check = 1
-                }
-            })
-
-            if (check = 1) {
-                callback(check)
-            } else {
-                bcrypt.hash(password, saltRounds, function(err, hash) {
-                    connection.query("INSERT INTO admin_accounts (First_Name, Last_Name, username, admin_pass) VALUES(?, ?, ?, ?)", (err, res)=>{
-                        // if(err) throw(err)
-                    })
-                })
-            }
-
-            callback(admin_accounts);
+        // })
+        let salt = bcrypt.genSalt(saltRounds);
+        let hash = bcrypt.hash(req.body.password)
+        console.log("ASDFA")
+        console.log(req.body.password)
+        connection.query("INSERT INTO admin_accounts (First_Name, Last_Name, username, admin_pass) VALUES('"+req.body.firstname+"', '"+req.body.lastname+"', '"+req.body.username+"', '"+hash+"')", (err, res)=>{
+            if (err) throw err;
+            res.send("nice");
         })
     }
 }

@@ -74,13 +74,23 @@
                     </div>
                 </div>
                 <div class="row">
-                    <div class="col-md-12">
+                    <div class="col-md-12 text-center">
                         <form action="/admin/appointments" method="POST">                         
                             <%apps.forEach((app)=>{%>
                                 <tr>
-                                    <td><%=months[app.Date_Created.getMonth()]%> <%=app.Date_Created.getDate()%>, <%=app.Date_Created.getFullYear()%></td>
-                                    <td><%=months[app.Appointment_Date.getMonth()]%> <%=app.Appointment_Date.getDate()%>, <%=app.Appointment_Date.getFullYear()%></td>
-                                    <td><%=app.Status%></td>
+                                    <td>Date Created:
+                                        <%=months[app.Date_Created.getMonth()]%> <%=app.Date_Created.getDate()%>, <%=app.Date_Created.getFullYear()%>
+                                    </td><br><br>
+                                    <td>Appointment Date: 
+                                        <%=months[app.Appointment_Date.getMonth()]%> <%=app.Appointment_Date.getDate()%>, <%=app.Appointment_Date.getFullYear()%>
+                                    </td><br><br>
+                                    <td>Image Submission Link:
+                                        <%=app.Image_Submission%>
+                                    </td><br><br>
+                                    <td>Purpose:
+                                        <%=app.purpose%>
+                                    </td><br><br>
+                                    <!-- <td><%=app.Status%></td> -->
                                 </tr>
                               <%})%>                   
                         </form>
