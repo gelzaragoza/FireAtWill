@@ -86,6 +86,13 @@ router.post("/newproject",(req,res)=>{
     })
 })
 
+router.post("/endProject",(req,res)=>{
+    console.log(req.body)
+    mysql.endProject(req.body,()=>{
+        res.redirect("/admin/project_records")
+    })
+})
+
 router.get("/session_records",(req,res)=>{
     // res.render("admin/session_records");
     console.log(req.query);
