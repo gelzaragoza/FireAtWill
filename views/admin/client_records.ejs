@@ -45,7 +45,7 @@
                               <td class="text-center"><%=client.Remarks%></td>
                               <td class="text-center">
                                 <!-- Update -->
-                                <button type="button" class="btn btn-success btn-floating" data-mdb-ripple-color="dark" data-mdb-toggle="modal" data-mdb-target="#appointment"><i class="fas fa-user-edit"></i></button>
+                                <button type="button" class="btn btn-success btn-floating" data-mdb-ripple-color="dark" data-mdb-toggle="modal" data-mdb-target="#client<%=client.Client_ID%>"><i class="fas fa-user-edit"></i></button>
                               </td>
                             </tr>
                           <%})%>
@@ -129,6 +129,85 @@
             </div>
         </div>
     </div> 
+
+    <%clients.forEach((client)=>{%>
+
+    <!-- Update Modal -->
+    <div
+    class="modal fade"
+    id="client<%=client.Client_ID%>"
+    tabindex="-1"
+    aria-labelledby="exampleModalLabel"
+    aria-hidden="true"
+    >
+        <div class="modal-dialog">
+            <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">Client <%=client.Client_ID%> Update Information</h5>
+                <button
+                type="button"
+                class="btn-close"
+                data-mdb-dismiss="modal"
+                aria-label="Close"
+                ></button>
+            </div>
+            <div class="modal-body">
+                <div class="row">
+                    <div class="col-md-12">
+                      <form action="/admin/clientupdate?id=<%=client.Client_ID%>" method="POST">
+                        <!-- First Name input -->
+                        <div class="form-outline mb-4">
+                          <input type="text" id="form5Example2" class="form-control" name="firstname" value="<%=client.First_Name%>"/>
+                          <label class="form-label" for="form5Example1">First Name</label>
+                        </div>
+                        <!-- Client's Last Name -->
+                        <div class="form-outline mb-4">
+                          <input type="text" id="form5Example1" class="form-control" name="lastname" value="<%=client.Last_Name%>"/>
+                          <label class="form-label" for="form5Example1">Last Name</label>
+                        </div>
+                        <!-- Contact Number -->
+                        <div class="form-outline mb-4">
+                          <input type="text" id="form5Example3" class="form-control" name="contactnumber" value="<%=client.Contact_Number%>"/>
+                          <label class="form-label" for="form5Example1">Contact Number</label>
+                        </div>
+                        <!-- City -->
+                        <div class="form-outline mb-4">
+                          <input type="text" id="form5Example4" class="form-control" name="city" value="<%=client.City%>"/>
+                          <label class="form-label" for="form5Example1">City</label>
+                        </div>
+                        <!-- Address -->
+                        <div class="form-outline mb-4">
+                          <input type="text" id="form5Example4" class="form-control" name="street" value="<%=client.Street%>"/>
+                          <label class="form-label" for="form5Example1">Street</label>
+                        </div>
+                        <!-- Address -->
+                        <div class="form-outline mb-4">
+                          <input type="text" id="form5Example4" class="form-control" name="address" value="<%=client.Address%>"/>
+                          <label class="form-label" for="form5Example1">Address</label>
+                        </div>
+                        <!-- Remarks -->
+                        <div class="form-outline mb-4">
+                          <input type="text" id="form5Example5" class="form-control" name="remarks" value="<%=client.Remarks%>"/>
+                          <label class="form-label" for="form5Example1">Remarks</label>
+                        </div>
+
+                        <!-- Submit button -->
+                          <button type="submit" class="btn btn-primary btn-block">Update</button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-mdb-dismiss="modal">
+                Close
+                </button>
+            </div>
+            </div>
+        </div>
+    </div> 
+
+    <%})%>
+
     <%-include('../css_js/login_js')%>
 </body>
 </html>
