@@ -28,12 +28,29 @@
                 <span class="input-group-text" id="basic-addon1"><i class="fa fa-search"></i></span>
                 <input id="guestsearch" type="text" class="form-control" placeholder="Search by name or tags" aria-label="Username" aria-describedby="basic-addon1">
             </div>
+    <%}else if(type=="admin"){%>
+        <div class="card mb-5">
+            <div class="card-header h4">
+                Design Gallery
+            </div>
+            <div class="card-body">
+                <div class="row " style="float:right;">
+                    <div class="col-md-12">
+                        <button class="btn btn-success btn-sm"><i class="fa fa-plus"></i> Add Design</button>
+                    </div>
+                </div>
+                <div class="input-group mb-3 p-5">
+                    <span class="input-group-text" id="basic-addon1"><i class="fa fa-search"></i></span>
+                    <input id="usersearch" type="text" class="form-control" placeholder="Search by name or tags" aria-label="Username" aria-describedby="basic-addon1">
+                </div>
+            </div>
+        </div>
     <%}else{%>
         <div class="card mb-5">
             <div class="card-header h4">
                 Design Gallery
             </div>
-            <div class="cad-body">
+            <div class="card-body">
                 <div class="input-group mb-3 p-5">
                     <span class="input-group-text" id="basic-addon1"><i class="fa fa-search"></i></span>
                     <input id="usersearch" type="text" class="form-control" placeholder="Search by name or tags" aria-label="Username" aria-describedby="basic-addon1">

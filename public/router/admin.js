@@ -6,103 +6,79 @@ const mid = require("../controller/middleware.js");
 const bcrypt = require('bcrypt');
 const saltRounds = 10;
 
-router.get("/",(req,res)=>{
+router.get("/",mid.admin,(req,res)=>{
     mysql.getDashboard((dashboard)=>{
        res.render("admin/dashboard", {appCount:dashboard[0],appCur:dashboard[1],onProj:dashboard[2],clients:dashboard[3]}
        );      
     })
 })
 
-router.get("/artist",(req,res)=>{
+router.get("/artist",mid.admin,(req,res)=>{
     mysql.getArtist((artist)=>{
         console.log(artist)
         res.render("admin/artist_records", {artists:artist});
     })
 })
 
-router.post("/artist",(req,res)=>{
+router.post("/artist",mid.admin,(req,res)=>{
     console.log(req.body)
     mysql.addArtist(req.body,()=>{
         res.redirect("/admin/artist")
     })
 })
 
-router.post("/artistupdate",(req,res)=>{
+router.post("/artistupdate",mid.admin,(req,res)=>{
     mysql.updateArtist(req.body, parseInt(req.query.id), ()=>{
         res.redirect("/admin/artist")
     })
 })
 
 
-router.get("/client",(req,res)=>{
+router.get("/client",mid.admin,(req,res)=>{
     mysql.getClient((client)=>{
         console.log(client)
         res.render("admin/client_records", {clients:client});
     })
 })
 
-router.post("/client",(req,res)=>{
+router.post("/client",mid.admin,(req,res)=>{
     console.log(req.body)
     mysql.addClient(req.body,()=>{
         res.redirect("/admin/client")
     })
 })
 
-router.post("/clientupdate",(req,res)=>{
+router.post("/clientupdate",mid.admin,(req,res)=>{
     mysql.updateClient(req.body, parseInt(req.query.id), ()=>{
         res.redirect("/admin/client")
     })
 })
 
 
-router.get("/adminregistration", (req,res)=>{
+router.get("/adminregistration",mid.admin,(req,res)=>{
     res.render("admin/adminregistration")
 })
 
-router.post("/adminregistration", (req,res)=>{
-    // console.log(req.body) 
-
-    // mysql.adminRegistration(req.body,(retVal)=>{    
-    //     if (retVal == 1) {
-    //         res.redirect("/admin")
-    //     } else {
-    //         res.redirect("/admin")
-    //     }
-    // })
-
-    // try {
-    //     const { password } = req.body;
-    //     const hash = await bcrypt.hash(password, 10);
-    //     await mysql('users').insert({hash:hash});
-    //     res.status(200).json('All good in the hood!');
-    // } catch(e) {
-    //     console.log(e);
-    //     res.status(500).send('Seomthing broke!');
-    // }
-
+router.post("/adminregistration",mid.admin,(req,res)=>{
     mysql.adminRegistration(req.body,()=>{
-        res.redirect("/admin/")
+        res.redirect("/admin")
     })
-
-    // let password = bcrypt.genSaltSync(saltRounds);
-    // let hash = bcrypt.hashSync(req.body.password);
-    // req.body.username, req.body.admin_pass
-
-    // let salt = bcrypt.genSalt(saltRounds);
-    // let hash = bcrypt.hash(req.body.password)
-    // console.log("ASDFA")
-    // console.log(req.body.password)
-    // connection.query("INSERT INTO admin_accoutns (First_Name, Last_Name, username, admin_pass) VALUES('"+req.body.firstname+"', '"+req.body.lastname+"', '"+req.body.username+"', '"+hash+"')", (err, res)=>{
-    //     if (err) throw err;
-    //     res.send("nice");
-    // })
 })
 
-router.post("/adminlogin", (req,res)=>{
-    res.redirect("/admin")
+router.post("/adminlogin",mid.home,(req,res)=>{
+    mysql.adminLogin(req.body,(user)=>{
+        if(user){
+            req.session.userid=user[0].admin_ID;
+            req.session.type="admin";
+            req.session.user= user[0].First_Name+" "+user[0].Last_Name;
+            res.redirect("/admin");
+        }else{
+            res.redirect("/adminlogin");
+        }
+    });
 })
 
-router.get("/appointments",(req,res)=>{
+router.get("/appointments",mid.admin,(req,res)=>{
     mysql.getGallery((img)=>{
         mysql.getClient((clients)=>{
             mysql.getAllAppointments((app)=>{
@@ -115,7 +91,7 @@ router.get("/appointments",(req,res)=>{
 
 
 
-router.get("/project_records",(req,res)=>{
+router.get("/project_records",mid.admin,(req,res)=>{
     // res.render("admin/project_records");
     let months = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"];
     mysql.getProjects((project)=>{
@@ -129,43 +105,43 @@ router.get("/project_records",(req,res)=>{
     })
 })
 
-router.post("/newproject",(req,res)=>{
+router.post("/newproject",mid.admin,(req,res)=>{
     console.log(req.body)
     mysql.addProject(req.body,()=>{
         res.redirect("/admin/project_records")
     })
 })
 
-router.post("/endProject",(req,res)=>{
+router.post("/endProject",mid.admin,(req,res)=>{
     console.log(req.body)
     mysql.endProject(req.body,()=>{
         res.redirect("/admin/project_records")
     })
 })
 
-router.get("/session_records",(req,res)=>{
-    // res.render("admin/session_records");
-    console.log(req.query);
-    mysql.getSessions((session)=>{
-        res.render("admin/session_records", {sessions:session, source:req.query})
-    })
+router.get("/session_records",mid.admin,(req,res)=>{
+    let months = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"];
+    mysql.getSessions(parseInt(req.query.Project_id),(session)=>{
+        console.log(session);
+        res.render("admin/session_records", {sessions:session, source:req.query, months:months})
+    });
 })
 
-router.post("/newsession",(req,res)=>{
+router.post("/newsession",mid.admin,(req,res)=>{
     console.log(req.body)
     mysql.addSession(req.body,()=>{
-        res.redirect("/admin/session_records")
+        res.redirect("/admin/session_records?Project_id="+req.query.id+"&Client_name="+req.query.client);
     })
 })
 
-router.get("/transaction_records",(req,res)=>{
+router.get("/transaction_records",mid.admin,(req,res)=>{
     // res.render("admin/transaction_records");
     mysql.getTransactions((transaction)=>{
         res.render("admin/transaction_records", {transactions:transaction[0], tran_seshes:transaction[1]})
     })
 })
 
-router.post("/preview",(req,res)=>{
+router.post("/preview",mid.admin,(req,res)=>{
     if(parseInt(req.query.id)==0){
         res.end();
     }else{
@@ -175,9 +151,15 @@ router.post("/preview",(req,res)=>{
     }
 });
 
-router.post("/projdone",(req,res)=>{
+router.post("/projdone",mid.admin,(req,res)=>{
     mysql.doneProject(parseInt(req.query.id),()=>{
         res.redirect("/admin/project_records");
+    });
+});
+
+router.post("/appstatus",(req,res)=>{
+    mysql.appStatus(parseInt(req.query.id),parseInt(req.query.check),()=>{
+        res.redirect("/admin/appointments");
     });
 });
 

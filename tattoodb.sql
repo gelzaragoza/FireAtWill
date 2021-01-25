@@ -1,5 +1,5 @@
-CREATE DATABASE tattoo_db;
-USE tattoo_db;
+CREATE DATABASE newtattoo_db;
+USE newtattoo_db;
 
 CREATE TABLE Artist(
     Artist_ID int NOT NULL AUTO_INCREMENT,
@@ -55,7 +55,7 @@ CREATE TABLE tattoo_session(
     Session_Number int NOT NULL AUTO_INCREMENT,
     Project_Number int NOT NULL,
     Time_Started TIME NOT NULL,
-    Time_Finised TIME NULL,
+    Time_Finished TIME NULL,
     Session_Date date NOT NULL,
     CONSTRAINT Session_Number_PK_TS PRIMARY KEY(Session_Number),
     CONSTRAINT Project_Number_FK_TS FOREIGN KEY(Project_Number) REFERENCES Project_Records(Project_Number)
@@ -78,7 +78,7 @@ CREATE TABLE admin_accounts(
 	First_Name varchar(30) NOT NULL,
     Last_Name varchar(30) NOT NULL,
     username varchar(30) NOT NULL,
-    admin_pass varchar(30) NOT NULL,
+    admin_pass varchar(255) NOT NULL,
     CONSTRAINT admin_ID_PK_A PRIMARY KEY(admin_ID)
 );
 
@@ -102,4 +102,4 @@ UPDATE Design_Archive SET Design_ID=0 WHERE Design_ID=1;
 INSERT INTO Design_Archive(Design_Name,Image_Link,Image_Tags,Image_Desc) VALUES('Tribal','https://www.askideas.com/media/73/Cool-Tribal-Tattoo-Design.jpg','Tribal Cool Awesome Savage','Basic design for starters');
 INSERT INTO Design_Archive(Design_Name,Image_Link,Image_Tags,Image_Desc) VALUES('Dragon','https://images-na.ssl-images-amazon.com/images/I/712Z7RdR1SL.jpg','Dragon Fiction Powerful Legend','A Cool Dragon');
 INSERT INTO Design_Archive(Design_Name,Image_Link,Image_Tags,Image_Desc) VALUES('Traditional','https://i.pinimg.com/originals/61/d1/92/61d19232ae720c0e7673f898118a0114.jpg','Traditional Mask Legend Japanese','Japanese Traditional Design');
-INSERT INTO admin_accounts(First_Name,Last_Name,username,admin_pass) VALUES('Admin','Account','admin','admin');
+INSERT INTO admin_accounts(First_Name,Last_Name,username,admin_pass) VALUES('Admin','Account','admin','$2b$10$lhNkb8Gk2VXDG/r7fwzQWue.syM2iKGPwQUzMLRlvacLwpj0mlc.K');
