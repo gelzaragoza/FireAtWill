@@ -68,15 +68,9 @@ module.exports = {
         });
     },
     addSession: function(body,callback){
-        connection.query("INSERT INTO tattoo_session(Project_Number, Time_Started, Time_Finished, Session_Date, Total_Hours) VALUES("+body.projectNumber+", "+body.timeStart+", "+body.timeEnd+", "+body.date+", 0)", (err,tempA)=>{
+        connection.query("INSERT INTO tattoo_session(Project_Number, Time_Started, Time_Finished, Session_Date) VALUES("+body.projectNumber+", "+body.timeStart+", "+body.timeEnd+", "+body.date+")", (err,tempA)=>{
             if(err) throw(err);
-            connection.query("SELECT TIMEDIFF(Time_Started, Time_Finished) AS timediff FROM tattoo_session", (err,tempB)=>{
-                if(err) throw(err);
-                connection.query("UPDATE tattoo_session SET Total_Hours = "+tempB.timediff+"",(err,newsession)=>{
-                    if(err) throw(err);
-                    callback(newsession);
-                })
-            })
+            callback(newsession);
         })
     },
     loginClient: function(contact,callback){
