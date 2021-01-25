@@ -112,6 +112,18 @@ module.exports = {
             callback(client);
         })
     },
+    updateClient: function(body, ID, callback){
+        connection.query("UPDATE `client` SET `First_Name`='"+body.firstname+"',`Last_Name`='"+body.lastname+"',`Contact_Number`='"+body.contactnumber+"',`City`='"+body.city+"',`Street`='"+body.street+"',`Address`='"+body.address+"',`Remarks`='"+body.remarks+"' WHERE Client_ID=" +ID, (err, client)=>{
+            if(err) throw (err)
+            callback()
+        })
+    },
+    updateArtist: function(body, ID, callback){
+        connection.query("UPDATE `artist` SET `First_Name`='"+body.firstname+"',`Last_Name`='"+body.lastname+"',`Contact_Number`='"+body.contactnumber+"',`City`='"+body.city+"',`Street`='"+body.street+"',`Address`='"+body.address+"',`Rate`='"+body.rates+"' WHERE Artist_ID=" +ID, (err, artist)=>{
+            if(err) throw (err)
+            callback()
+        })
+    },
     getDesign: function(callback){
         connection.query("SELECT * FROM design_archive",(err,design)=>{
             if(err) throw(err);
@@ -148,7 +160,7 @@ module.exports = {
             callback(dashboard);
         })
     },
-    adminRegistration: function(body, req, callback){
+    adminRegistration: function(body, callback){
         // connection.query("INSERT INTO admin_accounts(First_Name, Last_Name, username, admin_pass) VALUES('"+body.firstname+"', '"+body.lastname+"', '"+body.username+"', '"+body.password+"')", (err,admin_accounts)=>{
         //     if(err) throw(err);
         //     callback();
@@ -171,12 +183,13 @@ module.exports = {
             // })
         // })
         let salt = bcrypt.genSaltSync(saltRounds);
-        let hash = bcrypt.hashsync(req.body.password)
+        let hash = bcrypt.hashSync(body.password, salt)
         console.log("ASDFA")
-        console.log(req.body.password)
-        connection.query("INSERT INTO admin_accounts (First_Name, Last_Name, username, admin_pass) VALUES('"+req.body.firstname+"', '"+req.body.lastname+"', '"+req.body.username+"', '"+hash+"')", (err, res)=>{
+        console.log(body.password)
+        connection.query("INSERT INTO admin_accounts (First_Name, Last_Name, username, admin_pass) VALUES('"+body.firstname+"', '"+body.lastname+"', '"+body.username+"', '"+hash+"')", (err, res)=>{
             if (err) throw err;
-            res.send("nice");
+            // res.send("nice");
+            callback()
         })
     }
 }

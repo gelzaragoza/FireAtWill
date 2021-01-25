@@ -27,6 +27,13 @@ router.post("/artist",(req,res)=>{
     })
 })
 
+router.post("/artistupdate",(req,res)=>{
+    mysql.updateArtist(req.body, parseInt(req.query.id), ()=>{
+        res.redirect("/admin/artist")
+    })
+})
+
+
 router.get("/client",(req,res)=>{
     mysql.getClient((client)=>{
         console.log(client)
@@ -37,6 +44,12 @@ router.get("/client",(req,res)=>{
 router.post("/client",(req,res)=>{
     console.log(req.body)
     mysql.addClient(req.body,()=>{
+        res.redirect("/admin/client")
+    })
+})
+
+router.post("/clientupdate",(req,res)=>{
+    mysql.updateClient(req.body, parseInt(req.query.id), ()=>{
         res.redirect("/admin/client")
     })
 })
@@ -83,7 +96,11 @@ router.post("/adminregistration", (req,res)=>{
     //     if (err) throw err;
     //     res.send("nice");
     // })
-})  
+})
+
+router.post("/adminlogin", (req,res)=>{
+    res.redirect("/admin")
+})
 
 router.get("/appointments",(req,res)=>{
     mysql.getClient((clients)=>{
@@ -93,6 +110,7 @@ router.get("/appointments",(req,res)=>{
         })
     });
 });
+
 
 
 router.get("/project_records",(req,res)=>{
