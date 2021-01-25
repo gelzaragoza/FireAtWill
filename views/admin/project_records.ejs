@@ -46,14 +46,20 @@
                             <tbody>
                             <%projects.forEach((project)=>{%>
                                 <tr>                                 
-                                    <td><%=project.Project_Number%></td>
+                                    <td name="proj_num"><%=project.Project_Number%></td>
                                     <td><%=project.client_FN%> <%=project.client_LN%></td>
                                     <td><%=project.artist_FN%> <%=project.artist_LN%></td>
                                     <td><%=project.Design_Name%></td>
                                     <td><%=project.Color%></td>
                                     <td><%=project.Size%></td>
                                     <td><%=months[project.Date_Started.getMonth()]%> <%=project.Date_Started.getDate()%>, <%=project.Date_Started.getFullYear()%></td>
-                                    <td><%=project.Date_Finished%></td>
+                                    <%if(project.Date_Finished==null){%>
+                                        <td>
+                                            <a href="/admin/endProject"><button type="button" class="btn btn-info">End Project</i></button></a>
+                                        </td>
+                                    <%}else{%>
+                                        <td><%=months[project.Date_Finished.getMonth()]%> <%=project.Date_Finished.getDate()%>, <%=project.Date_Finished.getFullYear()%></td>
+                                    <%}%>
                                     <td><%=project.Status%></td>
                                     <td>
                                         <button class="btn btn-warning btn-floating"><i class="fas fa-edit"></i></button>

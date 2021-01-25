@@ -3,7 +3,7 @@ const connection = mysql.createConnection({
     host: "127.0.0.1",
     user: "root",
     password: "",
-    database: "tattoo_db",
+    database: "newtattoo_db",
     multipleStatements: true
 });
 
@@ -68,7 +68,7 @@ module.exports = {
         });
     },
     addSession: function(body,callback){
-        connection.query("INSERT INTO tattoo_session(Project_Number, Time_Started, Time_Finished, Session_Date, Total_Hours) VALUES("+body.projectNumber+", "+body.timeStart+", "+body.timeEnd+", "+body.date+", TO_CHAR(TIME '"+body.timeStart+" - "+body.timeEnd+"', 'HH.MM'))", (err,newsession)=>{
+        connection.query("INSERT INTO tattoo_session(Project_Number, Time_Started, Time_Finised, Session_Date) VALUES("+body.projectNumber+", '"+body.timeStart+"', '"+body.timeEnd+"', '"+body.date+"')", (err,newsession)=>{
             if(err) throw(err);
             callback(newsession);
         })
@@ -119,13 +119,13 @@ module.exports = {
         })
     },
     getSessions: function(callback){
-        connection.query("SELECT tattoo_session.Session_Number AS session_num, tattoo_session.Session_Date AS session_date, tattoo_session.Time_Started AS session_start, tattoo_session.Time_Finised AS session_end, (client.First_Name + client.Last_Name) AS client_name, project_records.Project_Number, (artist.First_Name + artist.Last_Name) AS artist_name FROM tattoo_session INNER JOIN project_records ON tattoo_session.Project_Number=project_records.Project_Number INNER JOIN client ON project_records.Client_ID=client.Client_ID INNER JOIN artist ON project_records.Artist_ID=artist.Artist_ID",(err,session)=>{
+        connection.query("SELECT tattoo_session.Session_Number AS session_num, tattoo_session.Session_Date AS session_date, tattoo_session.Time_Started AS session_start, tattoo_session.Time_Finised AS session_end, client.First_Name AS client_Fname, client.Last_Name AS client_Lname, project_records.Project_Number, artist.First_Name AS artist, artist.Last_Name AS artist_Lname FROM tattoo_session INNER JOIN project_records ON tattoo_session.Project_Number=project_records.Project_Number INNER JOIN client ON project_records.Client_ID=client.Client_ID INNER JOIN artist ON project_records.Artist_ID=artist.Artist_ID",(err,session)=>{
             if(err) throw(err);
             callback(session);
         })
     },
     getTransactions: function(callback){
-        connection.query("SELECT payment.Receipt_ID AS receipt_id, payment.Payment_ID AS payment_id, design_archive.Design_ID as design_id, project_records.Project_Number AS project_number, (client.First_Name + client.Last_Name) AS client_name, tattoo_session.Session_Number AS session_number, SUM(payment.Amount) AS total_payment FROM payment INNER JOIN client ON payment.Client_ID=client.Client_ID INNER JOIN tattoo_session ON payment.Session_Number=tattoo_session.Session_Number INNER JOIN project_records ON tattoo_session.Project_Number=project_records.Project_Number INNER JOIN design_archive ON project_records.Design_ID=design_archive.Design_ID GROUP BY project_records.Project_Number; SELECT payment.Receipt_ID AS receipt_id, project_records.Project_Number AS project_number, tattoo_session.Session_Number AS session_number, tattoo_session.Time_Started AS session_start, tattoo_session.Time_Finised AS session_end, tattoo_session.Session_Date AS session_date, payment.Amount AS session_payment FROM payment INNER JOIN tattoo_session ON payment.Session_Number=tattoo_session.Session_Number INNER JOIN project_records ON tattoo_session.Project_Number=project_records.Project_Number GROUP BY project_records.Project_Number",(err,transaction)=>{
+        connection.query("SELECT payment.Receipt_ID AS receipt_id, payment.Payment_ID AS payment_id, design_archive.Design_ID as design_id, project_records.Project_Number AS project_number, client.First_Name AS client_Fname, client.Last_Name AS client_Lname, tattoo_session.Session_Number AS session_number, SUM(payment.Amount) AS total_payment FROM payment INNER JOIN client ON payment.Client_ID=client.Client_ID INNER JOIN tattoo_session ON payment.Session_Number=tattoo_session.Session_Number INNER JOIN project_records ON tattoo_session.Project_Number=project_records.Project_Number INNER JOIN design_archive ON project_records.Design_ID=design_archive.Design_ID GROUP BY project_records.Project_Number; SELECT payment.Receipt_ID AS receipt_id, project_records.Project_Number AS project_number, tattoo_session.Session_Number AS session_number, tattoo_session.Time_Started AS session_start, tattoo_session.Time_Finised AS session_end, tattoo_session.Session_Date AS session_date, payment.Amount AS session_payment FROM payment INNER JOIN tattoo_session ON payment.Session_Number=tattoo_session.Session_Number INNER JOIN project_records ON tattoo_session.Project_Number=project_records.Project_Number GROUP BY project_records.Project_Number",(err,transaction)=>{
             if(err) throw(err);
             callback(transaction);
         })
@@ -134,6 +134,12 @@ module.exports = {
         connection.query("SELECT project_records.Project_Number, artist.First_Name AS artist_FN, artist.Last_Name AS artist_LN, client.First_Name AS client_FN, client.Last_Name AS client_LN, project_records.Color, project_records.Date_Started, project_records.Date_Finished, design_archive.Design_Name, project_records.Size, project_records.Status FROM project_records INNER JOIN artist ON project_records.Artist_ID=artist.Artist_ID INNER JOIN client ON project_records.Client_ID=client.Client_ID INNER JOIN design_archive ON project_records.Design_ID=design_archive.Design_ID GROUP BY project_records.Project_Number", (err,project)=>{
             if(err) throw(err);
             callback(project);
+        })
+    },
+    endProject: function(body,callback){
+        connection.query("UPDATE project_records SET Date_Finished=CURDATE() WHERE Project_Number="+body.proj_num,(err,res)=>{
+            if(err) throw(err);
+            callback();
         })
     },
     getDashboard: function(callback){

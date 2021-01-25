@@ -43,8 +43,8 @@
                         <%sessions.forEach((session)=>{%>
                         <tr>
                             <th scope="row"><%=session.session_num%></th>
-                            <td class="text-center"><%=session.client_name%></td>
-                            <td class="text-center"><%=session.artist_name%></td>
+                            <td class="text-center"><%=session.client_Fname%> <%=session.client_Lname%></td>
+                            <td class="text-center"><%=session.artist_Fname%> <%=session.client_Lname%></td>
                             <td class="text-center"><%=session.session_date%></td>
                             <td class="text-center">
                                 <!-- Button trigger modal -->
@@ -64,12 +64,7 @@
                                     </div>
                                     <div class="modal-body">
                                         Time Started: <%= session.session_start %> <br>
-                                        <% if(session.session_end==NULL){%>
-                                            <button type="button" class="btn btn-warning">End Session</button>
-                                        <%}else{%>
                                         Time Ended: <%= session.session_end %>
-                                        <%}%>
-
                                     </div>
                                     <div class="modal-footer">
                                     <button type="button" class="btn btn-secondary" data-mdb-dismiss="modal">
