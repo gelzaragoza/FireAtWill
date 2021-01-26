@@ -7,6 +7,7 @@
     <link href="https://fonts.googleapis.com/css2?family=Pirata+One&display=swap" rel="stylesheet">
     <title>Projects</title>
     <%-include('../css_js/login_css')%>
+    <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/v/dt/dt-1.10.23/datatables.min.css"/>
 </head>
 <body style="background-color: slategray;">
     <!-- Navigation-->
@@ -25,10 +26,10 @@
                         You have no projects
                       </div>
                     <%}%>
-                      <div style="float: right;">
+                      <div class="mb-5" style="float: right;">
                         <button class="btn btn-success btn-sm" data-mdb-toggle="modal" data-mdb-target="#project"><i class="fa fa-plus"></i> New Project</button>
                       </div>
-                      <table class="table table-hover">
+                      <table class="table table-hover" id="apptable">
                             <thead>
                                 <tr>
                                     <th scope="col">Project Number</th>
@@ -47,9 +48,52 @@
                             <%projects.forEach((project)=>{%>
                                 <tr>                                 
                                     <td name="proj_num"><%=project.Project_Number%></td>
-                                    <td><%=project.client_FN%> <%=project.client_LN%></td>
-                                    <td><%=project.artist_FN%> <%=project.artist_LN%></td>
-                                    <td><%=project.Design_Name%></td>
+                                    <%clients.forEach((client)=>{%>
+                                        <%if(client.Client_ID==project.Client_ID){%>
+                                            <td><%=client.First_Name%> <%=client.Last_Name%></td>
+                                        <%}%>
+                                    <%})%>
+                                    <%artists.forEach((artist)=>{%>
+                                        <%if(artist.Artist_ID==project.Artist_ID){%>
+                                            <td><%=artist.First_Name%> <%=artist.Last_Name%></td>
+                                        <%}%>
+                                    <%})%>
+                                    <%designs.forEach((design)=>{%>
+                                        <%if(design.Design_ID==project.Design_ID){%>
+                                            <td><button class="btn btn-primary btn-sm" data-mdb-toggle="modal" data-mdb-target="#view<%=design.Design_ID%>"><%=design.Design_Name%></button></td>
+                                            <div class="modal fade" id="view<%=design.Design_ID%>" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                                                <div class="modal-dialog">
+                                                    <div class="modal-content">
+                                                    <div class="modal-header">
+                                                        <h5 class="modal-title" id="exampleModalLabel">Image Preview</h5>
+                                                        <button
+                                                        type="button"
+                                                        class="btn-close"
+                                                        data-mdb-dismiss="modal"
+                                                        aria-label="Close"
+                                                        ></button>
+                                                    </div>
+                                                    <div class="modal-body">
+                                                        <div class="row">
+                                                            <div class="col-md-12">
+                                                                <img
+                                                                src="<%=design.Image_Link%>"
+                                                                class="img-thumbnail"
+                                                                alt="..."
+                                                                />
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    <div class="modal-footer">
+                                                        <button type="button" class="btn btn-secondary" data-mdb-dismiss="modal">
+                                                        Close
+                                                        </button>
+                                                    </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        <%}%>
+                                    <%})%>
                                     <td><%=project.Color%></td>
                                     <td><%=project.Size%></td>
                                     <td><%=months[project.Date_Started.getMonth()]%> <%=project.Date_Started.getDate()%>, <%=project.Date_Started.getFullYear()%></td>
@@ -62,8 +106,11 @@
                                     <%}%>
                                     <td><%=project.Status%></td>
                                     <td>
-                                        <button class="btn btn-warning btn-floating"><i class="fas fa-edit"></i></button>
-                                        <a href="/admin/session_records?Project_id=<%=project.Project_Number%>&Client_name=<%=project.client_FN%>+<%=project.client_LN%>"><button class="btn btn-secondary btn-floating"><i class="fas fa-info"></i></button></a>
+                                        <%clients.forEach((client)=>{%>
+                                            <%if(project.Client_ID==client.Client_ID){%>
+                                                <a href="/admin/session_records?Project_id=<%=project.Project_Number%>&Client_name=<%=client.First_Name%>+<%=client.Last_Name%>"><button class="btn btn-primary btn-floating"><i class="fas fa-info"></i></button></a>
+                                            <%}%>
+                                        <%})%>
                                     </td>
                                 </tr>
                             <%})%>
@@ -218,6 +265,14 @@
                 }
             });
         }
+    </script>
+    <script type="text/javascript" src="https://cdn.datatables.net/v/dt/dt-1.10.23/datatables.min.js"></script>
+    <script>
+        $(document).ready(()=>{
+            $("#apptable").DataTable({
+                "paging": false
+            });
+        });
     </script>
 </body>
 </html>
