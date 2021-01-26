@@ -46,14 +46,20 @@
                             <tbody>
                             <%projects.forEach((project)=>{%>
                                 <tr>                                 
-                                    <td><%=project.Project_Number%></td>
+                                    <td name="proj_num"><%=project.Project_Number%></td>
                                     <td><%=project.client_FN%> <%=project.client_LN%></td>
                                     <td><%=project.artist_FN%> <%=project.artist_LN%></td>
                                     <td><%=project.Design_Name%></td>
                                     <td><%=project.Color%></td>
                                     <td><%=project.Size%></td>
                                     <td><%=months[project.Date_Started.getMonth()]%> <%=project.Date_Started.getDate()%>, <%=project.Date_Started.getFullYear()%></td>
-                                    <td><%=project.Date_Finished%></td>
+                                    <%if(project.Date_Finished==null){%>
+                                        <td>
+                                            <button class="btn btn-success btn-sm" data-mdb-toggle="modal" data-mdb-target="#confirmdone<%=project.Project_Number%>">Mark as Done</button>
+                                        </td>
+                                    <%}else{%>
+                                        <td><%=months[project.Date_Finished.getMonth()]%> <%=project.Date_Finished.getDate()%>, <%=project.Date_Finished.getFullYear()%></td>
+                                    <%}%>
                                     <td><%=project.Status%></td>
                                     <td>
                                         <button class="btn btn-warning btn-floating"><i class="fas fa-edit"></i></button>
@@ -95,6 +101,7 @@
                             <span class="input-group-text" id="addon-wrapping">Client</span>
                             <select name="clientname" id="" class="form-control" required>
                                 <!--display client list-->
+                                <option value="" disabled selected>Choose a Client</option>
                                 <%clients.forEach((client)=>{%>
                                     <option value="<%=client.Client_ID%>"><%=client.First_Name%> <%=client.Last_Name%></option>
                                 <%})%>
@@ -104,6 +111,7 @@
                             <span class="input-group-text" id="addon-wrapping">Artist</span>
                             <select name="artistname" id="" class="form-control" required>
                                 <!--display artist list-->
+                                <option value="" disabled selected>Choose a Artist</option>
                                 <%artists.forEach((artist)=>{%>
                                     <option value="<%=artist.Artist_ID%>"><%=artist.First_Name%> <%=artist.Last_Name%></option>
                                 <%})%>
@@ -111,16 +119,21 @@
                         </div>
                         <div class="input-group flex-nowrap mb-4">
                             <span class="input-group-text" id="addon-wrapping">Design</span>
-                            <select name="design" id="" class="form-control" required>
+                            <select name="design" id="imageselect" class="form-control" required onchange="preview()">
                                 <!--display design list-->
+                                <option value="" disabled selected>Choose a design</option>
                                 <%designs.forEach((design)=>{%>
                                     <option value="<%=design.Design_ID%>"><%=design.Design_Name%></option>
                                 <%})%>
                             </select>
                         </div>
+                        <div class="mb-4" id="imgpreview">
+                                
+                        </div>
                         <div class="input-group flex-nowrap mb-4">
                             <span class="input-group-text" id="addon-wrapping">Color</span>
                             <select name="color" id="" class="form-control" required>
+                                <option value="" disabled selected>Choose a Color</option>
                                 <option value="Colored">Colored</option>
                                 <option value="B/W">Black and White</option>
                             </select>
@@ -129,6 +142,7 @@
                             <span class="input-group-text" id="addon-wrapping">Size</span>
                             <select name="size" id="" class="form-control" required>
                                 <!--display size list-->
+                                <option value="" disabled selected>Choose a Size</option>
                                 <option value="Small">Small</option>
                                 <option value="Medium">Medium</option>
                                 <option value="Large">Large</option>
@@ -151,6 +165,59 @@
             </div>
         </div>
     </div>
+    <!-- Modal -->
+    <%projects.forEach((proj)=>{%>
+    <div
+    class="modal fade"
+    id="confirmdone<%=proj.Project_Number%>"
+    tabindex="-1"
+    aria-labelledby="exampleModalLabel"
+    aria-hidden="true"
+    >
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLabel">Project <%=proj.Project_Number%> Done Confirmation</h5>
+                    <button
+                    type="button"
+                    class="btn-close"
+                    data-mdb-dismiss="modal"
+                    aria-label="Close"
+                    ></button>
+                </div>
+            <div class="modal-body">
+                <div class="alert alert-info">
+                    Are sure to mark this project as done?
+                </div>
+            </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-mdb-dismiss="modal">
+                    Close
+                    </button>
+                    <form action="/admin/projdone?id=<%=proj.Project_Number%>" method="POST">
+                        <button type="submit" class="btn btn-success">Finish</button>                    
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+    <%})%>
     <%-include('../css_js/login_js')%>
+    <script src="https://code.jquery.com/jquery-3.5.1.min.js"
+    integrity="sha256-9/aliU8dGd2tb6OSsuzixeV4y/faTqgFtohetphbbj0="
+    crossorigin="anonymous"></script>
+    <script>
+        function preview(){
+            $.ajax({
+                method:"POST",
+                url:"/admin/preview?id="+$("#imageselect").val()
+            }).done((data,status)=>{
+                if(status=="success"){
+                    $("#imgpreview").empty();
+                    $("#imgpreview").html(data);
+                }
+            });
+        }
+    </script>
 </body>
 </html>

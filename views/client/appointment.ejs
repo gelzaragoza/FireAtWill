@@ -5,6 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Fire At Will</title>
     <%-include('../css_js/login_css')%>
+    <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/v/dt/dt-1.10.23/datatables.min.css"/>
 </head>
 <body style="background-color: slategray;">
     <%-include('../sections/clientnav')%>
@@ -17,10 +18,12 @@
                         <button class="btn btn-success btn-sm" style="float: right;" data-mdb-toggle="modal" data-mdb-target="#appointment"><i class="fa fa-plus"></i> Appointment</button>
                     </div>
                     <div class="card-body">
-                      <div class="alert alert-info">
-                        You got no appointments. Check out the gallery to see what you like on your next tattoo design.
-                      </div>
-                      <table class="table table-hover">
+                        <%if(apps.length<0){%>
+                            <div class="alert alert-info">
+                                You got no appointments. Check out the gallery to see what you like on your next tattoo design.
+                            </div>
+                        <%}%>
+                      <table class="table table-hover" id="apptable">
                           <thead>
                               <tr>
                                   <th scope="col">Date Created</th>
@@ -257,7 +260,13 @@
     <script src="https://code.jquery.com/jquery-3.5.1.min.js"
     integrity="sha256-9/aliU8dGd2tb6OSsuzixeV4y/faTqgFtohetphbbj0="
     crossorigin="anonymous"></script>
+    <script type="text/javascript" src="https://cdn.datatables.net/v/dt/dt-1.10.23/datatables.min.js"></script>
     <script>
+        $(document).ready(()=>{
+            $("#apptable").DataTable({
+                "paging": false
+            });
+        });
         function preview(){
             $.ajax({
                 method:"POST",
