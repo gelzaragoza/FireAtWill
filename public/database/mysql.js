@@ -17,6 +17,11 @@ connection.connect((err)=>{
 })
 
 module.exports = {
+    addDesign: function(body,callback){
+        connection.query("INSERT INTO design_archive(Design_Name,Image_Link,Image_Tags,Image_Desc) VALUES('"+body.imagename+"','"+body.imagelink+"','"+body.imagetags+"','"+body.imagedesc+"')",(err,gallery)=>{
+            callback();
+        });
+    },
     doneProject: function(id,callback){
         connection.query("UPDATE project_records SET Date_Finished=CURDATE(), Status='Complete' WHERE Project_Number="+id,(err,proj)=>{
             if(err) throw(err);

@@ -36,7 +36,7 @@
             <div class="card-body">
                 <div class="row " style="float:right;">
                     <div class="col-md-12">
-                        <button class="btn btn-success btn-sm"><i class="fa fa-plus"></i> Add Design</button>
+                        <button class="btn btn-success btn-sm" data-mdb-toggle="modal" data-mdb-target="#adddesign"><i class="fa fa-plus"></i> Add Design</button>
                     </div>
                 </div>
                 <div class="input-group mb-3 p-5">
@@ -70,6 +70,59 @@
 
 </div>
 <!-- /.container -->
+<!-- Modal -->
+<div
+  class="modal fade"
+  id="adddesign"
+  tabindex="-1"
+  aria-labelledby="exampleModalLabel"
+  aria-hidden="true"
+>
+  <div class="modal-dialog">
+    <div class="modal-content">
+    <form action="/gallery/adddesign" method="POST">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLabel">Add Design to Archive</h5>
+        <button
+          type="button"
+          class="btn-close"
+          data-mdb-dismiss="modal"
+          aria-label="Close"
+        ></button>
+      </div>
+      <div class="modal-body">
+          <div class="row">
+            <div class="col-md-12">
+                <div class="form-outline mb-4">
+                    <input type="text" id="form4Example1" class="form-control" name="imagename"/ required>
+                    <label class="form-label" for="form4Example1">Design Name</label>
+                </div>
+                <div class="form-outline mb-4">
+                    <input type="text" id="form4Example1" class="form-control" name="imagelink" placeholder="Image from the Web"/ required>
+                    <label class="form-label" for="form4Example1">Design Link</label>
+                </div>
+                <div class="form-outline mb-4">
+                    <input type="text" id="form4Example1" class="form-control" name="imagetags" placeholder="Cool, Awesome, Fiction"/ required>
+                    <label class="form-label" for="form4Example1">Design Tags</label>
+                </div>
+                <div class="form-outline mb-4">
+                    <input type="text" id="form4Example1" class="form-control" name="imagedesc"/ required>
+                    <label class="form-label" for="form4Example1">Design Description</label>
+                </div>
+            </div>
+          </div>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-mdb-dismiss="modal">
+          Close
+        </button>
+        <button type="submit" class="btn btn-success">Add</button>
+      </div>
+    </form>
+    </div>
+  </div>
+</div>
+
 <%if(type=="guest"){%>
     <%-include('../css_js/landing_js')%>
 <%}else{%>
