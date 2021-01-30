@@ -20,4 +20,10 @@ router.post("/",(req,res)=>{
     });
 });
 
+router.post("/adddesign",(req,res)=>{
+    mysql.addDesign(req.body,()=>{
+        res.redirect("/gallery");
+    })
+});
+
 module.exports= router;

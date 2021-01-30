@@ -8,6 +8,7 @@
     <title>Sessions</title>
     <%-include('../css_js/landing_css')%>
     <%-include('../css_js/admin/admin_css')%>
+    <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/v/dt/dt-1.10.23/datatables.min.css"/>
 </head>
 <body style="background-color: slategray;">
     <!-- Navigation-->
@@ -26,27 +27,106 @@
                                 You have no recorded sessions
                             </div>
                         <%}%>
-                        <div style="float: right;">
-                            <button class="btn btn-success btn-sm" data-mdb-toggle="modal" data-mdb-target="#session"><i class="fa fa-plus"></i> Add Session</button>
-                        </div>
-                        <table class="table table-sm table-hover align-middle">
+                        <%if(project.Status=="Complete"){%>
+                            <div class="mb-5" style="float: right;">
+                                <button class="btn btn-success btn-sm" data-mdb-toggle="modal" data-mdb-target="#session"><i class="fa fa-plus"></i> Add Session</button>
+                            </div>
+                        <%}%>
+                        <table class="table table-sm table-hover align-middle" id="apptable">
                             <thead class="table-light">
                               <tr>
                                 <th scope="col">Session Number</th>
                                 <th scope="col">Session Date</th>
                                 <th scope="col">Time Start</th>
                                 <th scope="col">Time End</th>
+                                <th scope="col">Action</th>
                               </tr>
                             </thead>
                             <tbody>
                                 <%if(sessions.length>0){%>        
                                     <%sessions.forEach((session)=>{%>
+                                        <%var temp=0%>
                                     <tr>
                                         <th scope="row"><%=session.Session_Number%></th>
                                         <td><%=months[session.Session_Date.getMonth()]%> <%=session.Session_Date.getDate()%>, <%=session.Session_Date.getFullYear()%></td>
                                         <td><%=session.Time_Started%></td>
                                         <td><%=session.Time_Finished%></td>
+                                        <td>
+                                            <%payments.forEach((payment)=>{%>
+                                                <%if(session.Session_Number==payment.Session_Number){%>
+                                                    <%temp=1%>
+                                                <%}%>
+                                            <%})%>
+                                            <%if(temp==1){%>
+                                                Transacted
+                                            <%}else{%>
+                                                <button class="btn btn-primary btn-sm" data-mdb-toggle="modal" data-mdb-target="#pay<%=session.Session_Number%>"><i class="fa fa-check-circle"></i> Transact</button>
+                                            <%}%>
+                                        </td>
                                     </tr>
+                                    <!-- Modal -->
+                                    <div
+                                    class="modal fade"
+                                    id="pay<%=session.Session_Number%>"
+                                    tabindex="-1"
+                                    aria-labelledby="exampleModalLabel"
+                                    aria-hidden="true"
+                                    >
+                                        <div class="modal-dialog">
+                                            <div class="modal-content">
+                                            <div class="modal-header">
+                                                <h5 class="modal-title" id="exampleModalLabel">Transaction for <%=source.Client_name%></h5>
+                                                <button
+                                                type="button"
+                                                class="btn-close"
+                                                data-mdb-dismiss="modal"
+                                                aria-label="Close"
+                                                ></button>
+                                            </div>
+                                            <form action="/admin/newtrans?id=<%=session.Session_Number%>&client=<%=project[0].Client_ID%>&Project_id=<%=source.Project_id%>&Client_name=<%=source.Client_name%>" method="POST">
+                                            <div class="modal-body">
+                                                <div class="row mb-1">
+                                                    <div class="col-md-12">
+                                                        <p class="note note-light">
+                                                            <strong>Session Number <%=session.Session_Number%></strong>
+                                                        </p>
+                                                    </div>
+                                                </div>
+                                                <div class="row">
+                                                    <div class="col-md-12">
+                                                        <div class="input-group flex-nowrap mb-4" hidden>
+                                                            <span class="input-group-text" id="addon-wrapping">Session</span>
+                                                            <input type="text" name="projnum" class="form-control" value="<%=session.Session_Number%>" disabled>
+                                                        </div>
+                                                        <div class="input-group flex-nowrap mb-4" hidden>
+                                                            <span class="input-group-text" id="addon-wrapping">Client</span>
+                                                            <input type="text" name="clientnum" class="form-control" value="<%=project[0].Client_ID%>" disabled>
+                                                        </div>
+                                                        <div class="input-group flex-nowrap mb-4">
+                                                            <span class="input-group-text" id="addon-wrapping">Receipt ID (Physical)</span>
+                                                            <input type="text" name="receiptid" class="form-control" required>
+                                                        </div>
+                                                        <div class="input-group flex-nowrap mb-4">
+                                                            <span class="input-group-text" id="addon-wrapping">Date</span>
+                                                            <input type="date" name="date" class="form-control" required>
+                                                        </div>
+                                                        <div class="input-group flex-nowrap mb-4">
+                                                            <span class="input-group-text" id="addon-wrapping">Amount</span>
+                                                            <input type="number" name="amount" class="form-control" required>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="modal-footer">
+                                                <button type="button" class="btn btn-secondary" data-mdb-dismiss="modal">
+                                                Close
+                                                </button>
+                                                <button type="submit" class="btn btn-success"><i class="fa fa-plus"></i> Submit</button>
+                                            </div>
+                                            </form>
+                                            </div>
+                                        </div>
+                                    </div>
                                     <%})%>
                                 <%}%>
                             </tbody>
@@ -76,7 +156,7 @@
                 aria-label="Close"
                 ></button>
             </div>
-            <form action="/admin/newsession?id=<%source.Project_id%>&client=<%=source.Client_name%>" method="POST">
+            <form action="/admin/newsession?id=<%=source.Project_id%>&client=<%=source.Client_name%>" method="POST">
             <div class="modal-body">
                 <div class="row">
                     <div class="col-md-12">
@@ -111,5 +191,16 @@
     </div>
 
 <%-include('../css_js/landing_js')%>
+<script src="https://code.jquery.com/jquery-3.5.1.min.js"
+integrity="sha256-9/aliU8dGd2tb6OSsuzixeV4y/faTqgFtohetphbbj0="
+crossorigin="anonymous"></script>
+<script type="text/javascript" src="https://cdn.datatables.net/v/dt/dt-1.10.23/datatables.min.js"></script>
+<script>
+    $(document).ready(()=>{
+        $("#apptable").DataTable({
+            "paging": false
+        });
+    });
+</script>
 </body>
 </html>

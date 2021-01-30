@@ -17,9 +17,14 @@ connection.connect((err)=>{
 })
 
 module.exports = {
+    addDesign: function(body,callback){
+        connection.query("INSERT INTO design_archive(Design_Name,Image_Link,Image_Tags,Image_Desc) VALUES('"+body.imagename+"','"+body.imagelink+"','"+body.imagetags+"','"+body.imagedesc+"')",(err,gallery)=>{
+            callback();
+        });
+    },
     doneProject: function(id,callback){
-        if(err) throw(err);
         connection.query("UPDATE project_records SET Date_Finished=CURDATE(), Status='Complete' WHERE Project_Number="+id,(err,proj)=>{
+            if(err) throw(err);
             callback();
         });
     },
@@ -135,19 +140,24 @@ module.exports = {
         })
     },
     getSessions: function(id,callback){
-        connection.query("SELECT * FROM  tattoo_session WHERE Project_Number="+id,(err,session)=>{
+        connection.query("SELECT * FROM project_records WHERE Project_Number="+id+";SELECT * FROM  tattoo_session WHERE Project_Number="+id+";SELECT * FROM payment",(err,session)=>{
             if(err) throw(err);
             callback(session);
         })
     },
     getTransactions: function(callback){
-        connection.query("SELECT payment.Receipt_ID AS receipt_id, payment.Payment_ID AS payment_id, design_archive.Design_ID as design_id, project_records.Project_Number AS project_number, client.First_Name AS client_Fname, client.Last_Name AS client_Lname, tattoo_session.Session_Number AS session_number, SUM(payment.Amount) AS total_payment FROM payment INNER JOIN client ON payment.Client_ID=client.Client_ID INNER JOIN tattoo_session ON payment.Session_Number=tattoo_session.Session_Number INNER JOIN project_records ON tattoo_session.Project_Number=project_records.Project_Number INNER JOIN design_archive ON project_records.Design_ID=design_archive.Design_ID GROUP BY project_records.Project_Number; SELECT payment.Receipt_ID AS receipt_id, project_records.Project_Number AS project_number, tattoo_session.Session_Number AS session_number, tattoo_session.Time_Started AS session_start, tattoo_session.Time_Finished AS session_end, tattoo_session.Session_Date AS session_date, payment.Amount AS session_payment FROM payment INNER JOIN tattoo_session ON payment.Session_Number=tattoo_session.Session_Number INNER JOIN project_records ON tattoo_session.Project_Number=project_records.Project_Number GROUP BY project_records.Project_Number",(err,transaction)=>{
+        connection.query("SELECT * FROM payment; SELECT * FROM client",(err,trans)=>{
             if(err) throw(err);
-            callback(transaction);
+            callback(trans);
         })
     },
+    addTrans: function(client,session,body,callback){
+        connection.query("INSERT INTO payment(Client_ID,Session_Number,Receipt_ID,Date_,Amount) VALUES("+client+","+session+",'"+body.receiptid+"','"+body.date+"',"+parseInt(body.amount)+")",(err,trans)=>{
+            callback();
+        });
+    },
     getProjects: function(callback){
-        connection.query("SELECT project_records.Project_Number, artist.First_Name AS artist_FN, artist.Last_Name AS artist_LN, client.First_Name AS client_FN, client.Last_Name AS client_LN, project_records.Color, project_records.Date_Started, project_records.Date_Finished, design_archive.Design_Name, project_records.Size, project_records.Status FROM project_records INNER JOIN artist ON project_records.Artist_ID=artist.Artist_ID INNER JOIN client ON project_records.Client_ID=client.Client_ID INNER JOIN design_archive ON project_records.Design_ID=design_archive.Design_ID GROUP BY project_records.Project_Number", (err,project)=>{
+        connection.query("SELECT * FROM project_records", (err,project)=>{
             if(err) throw(err);
             callback(project);
         })
@@ -159,7 +169,7 @@ module.exports = {
         })
     },
     getDashboard: function(callback){
-        connection.query("SELECT * FROM appointment WHERE Status='Pending' OR Status='Approved'; SELECT * FROM appointment WHERE Appointment_Date=CURDATE() AND Status='Approved'; SELECT * FROM project_records WHERE Status='Ongoing'; SELECT * FROM client",(err, dashboard)=>{
+        connection.query("SELECT * FROM appointment WHERE Status='Approved' AND Appointment_Date>=CURDATE(); SELECT * FROM appointment WHERE Appointment_Date=CURDATE() AND Status='Approved'; SELECT * FROM project_records WHERE Status='Ongoing'; SELECT * FROM client",(err, dashboard)=>{
             if(err) throw(err);
             callback(dashboard);
         })
